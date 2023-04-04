@@ -1,0 +1,271 @@
+\documentclass{article}
+
+\input{../ypa_Preamble.tex}
+\usepackage{tkz-euclide}
+
+\renewcommand\var[1]{\Delta#1}
+\everymath{\displaystyle}
+\newenvironment{solution}[1][]{\\\noindent\textcolor{blue}{Solution} \textcolor{red}{#1}\\ }%这里的参数指的是解法1或解法2
+%\setlength{\parindent}{0pt}
+
+\title{Quantum Physics}
+\author{ypa}
+\date{2023.3.6\\
+Last Modified:\today
+}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\setcounter{section}{-1}
+\section{几何光学}
+\begin{enumerate}[label=\arabic*]
+	\item $\frac{\sin\theta_1}{v_1}=\frac{\sin \theta_2}{v_2},n_1\sin \theta_1=n_2\sin \theta_2$
+	\item 费马原理:光线从空间一点传播到另一点,沿所需{\red 时间为驻值}的路径传播\\
+				$\displaystyle \delta t=0,t=\int_{A}^{B}\frac{\dif s}{v},l=ct=\int_{A}^{B} \frac{c}{v}\dif s=\int_{A}^{B}n\dif s\qquad \delta l=0$\\
+				$n=n(x,y,z)$,光线经过的路径:$x=x(\lambda),\cdots $,光程为:
+				\[l[x,y,z]=\int_{A}^{B}n\dif s=\int_{A}^{B}n(x,y,z)\sqrt{\dot{x}^2+\dot{y}^2+\dot{z}^2}\dif \lambda\]
+				由变分法得程函方程:\[\frac{\partial n}{\partial x}-\frac{\dif }{\dif x}(nx')=0,\cdots \qquad \frac{\dif }{\dif s}\left(n\frac{\dif \vec{r}}{\dif s}=\nabla n\right)\]
+\end{enumerate}
+
+\section{量子物理的现象}
+\subsection{经典物理的回顾}
+\noindent$p=\frac{m_0v}{\sqrt{1-(\frac{v}{c})^2}}\quad E=\frac{m_0c^2}{\sqrt{1-(\frac{v}{c})^2}}\quad E=\sqrt{c^2p^2+m_0^2c^{\red 4}}$\\
+给出$\red E=mc^2\quad m=\sqrt{m_0^2+\frac{p^2}{c^2}}$($m_0$为静质量)\\
+$E_{k}=E-E_0=mc^2-m_0c^2$（本式是通式，在经典力学即低速运动中，由近似可以得到$E_{k}=\frac{1}{2}m_0v^2$）
+\begin{example}
+	质子+中子$\to$氘核的反应，该聚变反应释放的能量
+	\begin{solution}
+		质子质量$m_{p}$，中子质量$m_{n}$，氘核质量$m_{D}$,$E=\var{m}c^2=(m_{p}+m_{n}-m_{D})c^2$
+	\end{solution}
+\end{example}
+\noindent 波动的概念：$E=E_0\cos (\omega t+\varphi_0)$\\
+波的干涉：$E_1=E_{01}\cos (\omega t+\varphi_{01})\quad E_2=E_{02}\cos (\omega t+\varphi_{02})$\\
+合成波：$E=E_1+E_2$\\
+合成波强度：
+\[
+	\begin{aligned}
+		I &= E^2=(E_1+E_2)^2=E_{01}^2+E_{02}^2+E_{01}E_{02}\cos\varphi_{12}\\
+		\varphi_{12}\mn{当$\varphi_{12}=n\uppi$时$I$最大：干涉相长\\ 当$\varphi_{12}=(n+\frac{1}{2})\uppi$时最小：干涉相消} &= \varphi_1-\varphi_2 = \omega t_1+\varphi_{01}-\omega t_2-\varphi_{02} = \omega(t_1-t_2)\varphi_{01}-\varphi_{02}\\
+		&= \omega(\frac{r_1}{v}-\frac{r_2}{v})+\varphi_{01}-\varphi_{02}\\
+		&= \frac{2\uppi}{\lambda}(r_1-r_2)+(\varphi_{01}-\varphi_{02})\\
+		\var{\varphi} &= \frac{2\uppi}{\lambda}\underbrace{\var{L}}_{\text{路程差}}+\underbrace{\var{\varphi_0}}_{\text{初始相位差}}
+	\end{aligned}
+\]
+省流：两个波的合成或干涉依赖于两者的波程差与波长\\
+\begin{tabular}{l|cc|l|cc}
+	\hline
+	 		 & 低速 & 牛顿力学 &    & 电磁学   & 波动 \\
+	粒子 & 高速 & 相对论   & 波 & 量子物理 & 波粒二象性 \\
+			 & 能量、动量     &    &          & 波的干涉 \\ 
+	\hline
+\end{tabular}
+
+\subsection{电磁波的量子化}
+\begin{enumerate}[label=(\arabic*)]
+	\item 黑体辐射:\\
+				实验内容：热的物体发射电磁波的现象\\
+				实验结果：电磁波强度与频率的关系
+				$E=h\nu$:电偶极子的能量是不连续的.$h=6.63\times 10^{-34}\si{J\cdot s}$
+	\item 光电效应:\\
+				实验内容：一个轻元素物质表面吸收电磁波的过程\\
+				实验结果：光电流信号与电磁波强度无关，只与其频率有关\\
+				有截止频率,电子数目与频率成正比:$E_e=\underbrace{h\nu }_{E_p:\text{电磁波的能量}}-W_0(\text{束缚能})$\\
+				截止频率:$\nu_0=\frac{W}{h}$
+	\item Compton散射：\\
+				实验内容：X射线被电子散射的过程\\
+				实验结果：X射线被电子散射，随着散射角度增长，X射线波长也发生改变。散射角$\theta \propto \var\lambda,\quad \lambda-\lambda'=\frac{2h}{mc}\sin ^2 \frac{\theta}{2}$
+				\begin{figure}[H]
+					\centering
+					\begin{tikzpicture}[>=Stealth]
+						\draw [->](0,0)node[left]{X光子}--(1,0);
+						\draw [dashed](3,0)node[left]{电子}--(5.5,0);
+						\draw [dashed](3,0)--(5,1)(3,0)--(4.5,-1);
+						\filldraw [red](0,0)circle(1.5pt);
+						\filldraw (3,0)circle(1pt);
+						\filldraw [red](5,1)circle(1.5pt);
+						\filldraw (4.5,-1)circle(1pt);
+						\draw [red](3.8,0)arc(0:28:0.8);
+						\draw (3.5,0)arc(0:-31:0.5);
+						\draw (3.8,0.3)node[right]{$\red\theta$};
+						\draw (3.5,-0.2)node[right]{$\theta'$};
+					\end{tikzpicture}
+				\end{figure}
+				\begin{tabular}{cccc|ccc}
+					初始 & X光子 & 能量 & $E=h\nu$ & 电子 & 能量 & $E=m_0c^2$ \\
+							&       & 动量 & $p=\frac{h\nu}{c}$ & & 动量 & $0$ \\
+					散射后 & X光子 & 能量 & $E=h\nu'$ & 电子 & 能量 & $E=mc^2=\frac{m_0c^2}{\sqrt{1-(\frac{v_e}{c})^2}}$ \\
+								&       & 动量 & $p=\frac{h\nu'}{c}$ & & 动量 & $p=mv_e=\frac{m_0v_e}{\sqrt{1-(\frac{v_e}{c})^2}}$ \\
+				\end{tabular}\\
+				由能量守恒和动量守恒（水平方向和垂直方向）可得到三个方程式
+				\begin{align}
+					&\text{能量守恒} & h\nu+m_0c^2 &= h\nu'+\frac{m_0c^2}{\sqrt{1-(\frac{v_e}{c})^2}} \label{能量守恒eq1} \\
+					&\text{动量守恒} & (\text{水平}) \quad \frac{h\nu}{c} &= \frac{h\nu'}{c}\cos\theta + \frac{m_0v_e}{\sqrt{1-(\frac{v_e}{c})^2}}\cos\theta' \label{水平动量eq2} \\
+					&   & (\text{垂直}) \qquad 0 &= \frac{h\nu'}{c}\sin\theta - \frac{m_0v_e}{\sqrt{1-(\frac{v_e}{c})^2}}\sin\theta' \label{垂直动量eq3}
+				\end{align}
+				联立解得：
+				\[
+					\begin{aligned}
+						\nu-\nu' &= \frac{2h}{m_0c^2}\nu \nu'\sin^2\frac{\theta}{2} \qquad \text{两边同除以$\nu,\nu'$，乘以$c$得到下式}\\
+						\lambda'-\lambda &= \frac{2h}{m_0c}\sin^2\frac{\theta}{2}
+					\end{aligned}
+				\]
+	\item 相对论：$E=\sqrt{c^2p^2+m_0^2c^{\red 4}}=mc^2$，$E_k=E-E_0=mc^2-m_0c^2$
+				\begin{enumerate}[label=(\alph*)]
+					\item 光：$m_0=0$，$E=cp=h\nu ^2$
+					\item 电子：$m_0=m_e,m=\frac{m_0}{\sqrt{1-(\frac{v_e}{c})^2}}=\frac{m_e}{\sqrt{1-(\frac{v_e}{c})^2}}$，$p=mv_e=\frac{m_e v_e}{\sqrt{1-(\frac{v_e}{c})^2}}$，$E=mc^2=\frac{m_e c^2}{\sqrt{1-(\frac{v_e}{c})^2}}$，$m=\sqrt{m_0^2+\frac{p^2}{c^2}}$
+				\end{enumerate}
+				\begin{remark}
+					上述$E_0$代表粒子的静能量，$E$代表其动能量，$E_k$代表其动能，动能定义为动能量和静能量的差。
+					上述$m_0$代表粒子的静质量，$m$代表其动质量，$m_e$代表电子的静质量。
+				\end{remark}
+				\begin{example}
+					一个电灯泡功率100W,设其为白光(平均波长500nm),问每秒发射多少光子?\\
+					\textbf{Solution:\\}
+					单个光子能量$E = h\nu = h\frac{c}{\lambda}$,总能量:$E_t=100\si{J}$,光子数$n=\frac{E_t}{E}=\frac{E_t\lambda}{hc}=2.5\times 10^{20}$
+				\end{example}
+\end{enumerate}
+
+\subsection{量子结构的量子化}
+\begin{enumerate}[label=(\arabic*)]
+	\item 卢瑟福$\alpha$粒子（$\text{He}_4^2$）散射实验:\\
+				实验内容：$\alpha$粒子向金片散射\\
+				实验结果：$\alpha$粒子向原子的散射过程中，$\alpha$粒子绝大部分直线穿过，只有极少数偏射甚至反射\\
+				理论解释:汤姆逊模型(枣糕模型):电子和正电荷混杂在原子中(不能解释)\\
+				卢瑟福模型:中心有一个原子核,电子围绕原子核
+	\item	氢原子光谱:有一系列分立的光谱线,满足巴耳末公式$\nu=R_H c(\frac{1}{n_1^2}-\frac{1}{n_2^2})$,里德伯常数$R_H=1.096\times 10^{-7}\si{m^{-1}}$
+	\item 玻尔原子模型(半经典半量子):量子化角动量假设:电子在轨道上做圆周运动,角动量(动量,半径)是量子化的:$L=mvr=n\hbar\quad \hbar=\frac{h}{2\uppi}$\\
+				跃迁假设:电子从一个轨道跃迁到另一轨道,能量以电磁波形式发射,形成光谱线\\
+				定量计算:\[\begin{cases}
+					(\text{库仑力})\frac{1}{4\uppi \varepsilon_0}\cdot \frac{e^2}{r^2} = m \frac{v^2}{r}(\text{向心力})\\
+					mv_e r = n\hbar
+				\end{cases}\Rightarrow r_n = \frac{4e^2 \uppi^2 m^2r^2}{n^2h^2m_4\uppi\varepsilon_0} = \frac{e^2\uppi mr^2}{\varepsilon_0n^2h^2} = \frac{\varepsilon_0 n^2h^2}{e^2\uppi m}\propto n\text{故不连续}\]
+				\textbf{注:}上述是氢原子,核内质子带电为$e$,核外电子也是$e$,若其他原子质子数为$k$,那么式子变成:
+				\[\begin{cases}
+					(\text{库仑力})\frac{1}{4\uppi \varepsilon_0}\cdot \frac{{\red k}e^2}{r^2} = m \frac{v^2}{r}(\text{向心力})\\
+					mv_e r = n\hbar
+				\end{cases}\Rightarrow r_n = \frac{4e^2 \uppi^2 m^2r^2}{n^2h^2m_4\uppi\varepsilon_0} = \frac{e^2\uppi mr^2}{\varepsilon_0n^2h^2} = \frac{\varepsilon_0 n^2h^2}{{\red k}e^2\uppi m}\]
+				电子绕核转的能量:
+				\[\begin{split}
+					E &= E_{\text{动}}+E_{\text{势}} = \frac{1}{2}mv^2-\frac{e^2}{r}\cdot \frac{1}{4\uppi \varepsilon_0}\\
+					&= \frac{n^2h^2}{8\uppi^2 mr^2}-\frac{e^2}{4\uppi\varepsilon_0}\cdot \frac{e^2 \uppi m}{\varepsilon_0n^2h^2}\\
+					&= -\frac{e^4m}{8\varepsilon_0^2n^2h^2}-\frac{e^4m}{4\varepsilon_0^2n^2h^2}\\
+					&= -\frac{me^4}{8\varepsilon_0^2n^2h^2}\sim \frac{1}{n^2}
+				\end{split}\]
+				从$n_1$跃迁到$n_2$：$\var{E} = E_{n_1}-E_{n_2} = \frac{me^4}{8\varepsilon_0^2h^2}\left(\frac{1}{n_1^2}-\frac{1}{n_2^2}\right)$
+				$\var{E}$会以电磁波的形式放射出去：$\var{E}=h\nu \Rightarrow \nu = \frac{E}{h}=\underbrace{\frac{me^4}{8\varepsilon_0^2h^3}}_{R_H\cdot c}\left(\frac{1}{n_1^2}-\frac{1}{n_2^2}\right)$,里德伯常量$R_H=\frac{me^4}{8\varepsilon_0^2h^3c}$
+	\item Frank-Hertz实验：\\
+				实验内容：原子吸收电子的过程\\
+				实验结果：形成一系列的峰谷结构，且每个峰/谷的间距都是$4.9\si{V}$\\
+				理论解释：Hg原子的能级是量子化的
+\end{enumerate}
+
+\subsection{波粒二象性}
+\begin{enumerate}[label=(\arabic*)]
+	\item 描述波:波长$\lambda$,周期$T$,频率$\nu$\quad 描述粒子:动量$p$,能量$E$\\
+				如何将左右的物理量联系起来?\\
+				普朗克公式$E=h\nu$,爱因斯坦公式:$E=cp$,于是$cp=h\nu \Rightarrow p=\frac{h\nu}{c}$,又由$\lambda=\frac{c}{\nu}$,有$p=\frac{h}{\lambda}$\\
+				德布罗意波粒二象性公式：$E=h\nu,p=\frac{h}{\lambda}$.光,电子,以及一切微观粒子都有波粒二象性\\
+				\textbf{推论:}\begin{enumerate}[label=(\alph*)]
+					\item 一般情况：$\lambda=\frac{h}{p}$，$\lambda=\frac{h}{\sqrt{(\frac{E_k}{c})^2+2m_0E_k}}$\\
+								推导：$E=\sqrt{c^2p^2+m_0^2c^4},E_k=E-m_0c^2\Rightarrow p=\sqrt{\left(\frac{E_k}{c}\right)^2+2m_0E_k}$
+					\item 非相对论：$m\approx m_0\Rightarrow E_k=\frac{p^2}{2m}\Rightarrow p=\sqrt{2mE_k}\quad \lambda=\frac{h}{p}=\frac{h}{\sqrt{2mE_k}}$\\
+								有温度情况：$E=\uppi k_B T$(温度是物体热运动的表现),得$\lambda=\frac{h}{\sqrt{2mE_k}}=\frac{h}{\sqrt{2m\uppi k_B T}}$
+				\end{enumerate}
+	\item 光的波粒二象性：粒子性：黑体辐射、光电效应；波动性：干涉衍射、光学显微镜、光谱\\
+				光波动性——晶格衍射\footnote{下面明明讲的是干涉，为啥这一行说是衍射呢？因为他俩一般没啥区别，详见知乎\href{https://www.zhihu.com/question/30233166}{干涉和衍射的区别}}，光的干涉：\\
+				光的干涉现象:两个电磁波相干叠加的效应.出现明暗相间的条纹\\
+				理论解释:电磁波的波动性.
+				\[\underbrace{E}_{\text{电磁波}} = \underbrace{A}_{\text{振幅}}\cos (\omega t-kr+\phi_0)\]
+				圆频率$\omega=\frac{2\uppi}{T}$(时间上的周期性),波矢$k=\frac{2\uppi}{\lambda}$(空间上的周期性)\\
+				\begin{itemize}
+					\item （1号波）$E_1 = A_1\cos (\omega t-kr_1+\phi_0)$
+					\item （2号波）$E_2 = A_2\cos (\omega t-kr_2+\phi_0)$
+				\end{itemize}
+				在$P$点两个波叠加:$E = E_1+E_2 = A_1\cos (\omega t-kr_1+\phi_0)+A_2\cos (\omega t-kr_2+\phi_0)$\\
+				场强:$I = A_1^2+A_2^2+2A_1A_2\cos (\var \phi)$,$\var \phi=\phi-\phi_2 = -k(r_1-r_2)$
+				则有\[I = A_1^2+A_2^2+2A_1A_2\cos (\underbrace{k\var L}_{\text{光程差}})\]
+				当$k\var L = 2n\uppi$时,$I_{\max} = A_1^2+A_2^2+2A_1A_2$,当$k\var L=(2n+1)\uppi$时,$I_{\min} = A_1^2+A_2^2-2A_1A_2$\\
+				由$\max:k=\frac{2\uppi}{\lambda}$,有$\frac{2\uppi}{\lambda}\var L = 2n\uppi \Rightarrow \var L=n\lambda$,\quad $\min:\var L = \left(n+\frac{1}{2}\right)\lambda$
+				\begin{minipage}{0.3\textwidth}
+					\begin{tikzpicture}[decoration={brace, amplitude=5}]
+						\draw (0,-1.5)--(0,-1.1)(0,-0.9)--(0,0.9)(0,1.1)--(0,2.5)(3,-1.5)--(3,2.5);
+						\draw (0,1)node[left]{$s_1$};
+						\draw (0,-1)node[left]{$s_2$};
+						\draw [decorate](-0.05,-1)--(-0.05,1);
+						\draw (-0.2,0)node[left]{$d$};
+						\draw (3,2)node[right]{$P$};
+						\filldraw (3,2)circle(1.5pt);
+						\draw [red](0,-1)--(3,2);
+						\draw [red](0,1)--(3,2);
+						\draw [red,dashed](0,1)--(1,0);
+						\draw (0,1)coordinate (s1) (0,-1)coordinate (s2) (1,0)coordinate (d);
+						\tkzMarkRightAngle(s1,d,s2);
+						\draw (0,0.7)arc(-90:-45:0.3);
+						\draw (0.2,0.7)node[below]{$\theta$};
+						\draw [decorate](1,0)--(0,-1);
+						\draw (0.5,-0.5)node[below right]{$\var{L}$};
+					\end{tikzpicture}
+				\end{minipage}
+				\hfill
+				\begin{minipage}{0.6\textwidth}
+					$\var{L} = d\sin\theta$\\
+					$\var{L} = d\sin\theta = n\lambda \quad (n\in\mathbb{N}^*)$（干涉相长，亮纹）\\
+					$\var{L} = d\sin\theta = \left(n+\frac{1}{2}\right)\lambda \quad (n\in\mathbb{N}^*)$（干涉相消，暗纹）
+				\end{minipage}
+	\item X射线的波粒二象性：粒子性：Compton散射；波动性：X射线晶格衍射、X射线显微镜、X射线光谱\\
+				X射线晶格衍射：\\
+				实验内容：X射线/光经过晶体发生干涉现象\\
+				实验结果：明暗相间条纹\\
+				理论解释：X射线也是一种波，波长为$\lambda$\\
+				\begin{minipage}{0.25\textwidth}
+					\begin{tikzpicture}[>=Stealth,decoration={brace, amplitude=5}]
+						\foreach \i in {0,1,2}{
+							\foreach \j in {0,1,2}
+								\draw (\i,\j)circle(1.5pt);
+						}
+						\draw [->,red](-0.2,2.2)--(1,1)--(2.4,2.4);
+						\draw [->,red](-0.2,1.1)--(1,0)--(2.4,1.4);
+						\draw [decorate](1,1)--(1,0);
+						\node at (1.35,0.5){$d$};
+						\draw [dashed](1,1)--(0.5,0.5)(1,1)--(1,0);
+						\draw (0.6,0.6)--(0.7,0.5)--(0.6,0.4);
+						\draw [blue](0.75,0.75)arc(-135:-80:0.25);
+						\node at (0.7,0.85){$\blue\theta$};
+					\end{tikzpicture}
+				\end{minipage}
+				\hfill
+				\begin{minipage}{0.8\textwidth}
+					$\var{L}={\red 2}d\sin\theta=n\lambda \quad (n\in\mathbb{N}^*)$（干涉相长，亮纹）\\
+					$\var{L}={\red 2}d\sin\theta=\left(n+\frac{1}{2}\right)\lambda \quad (n\in\mathbb{N}^*)$（干涉相消，暗纹）\\
+					$\var{L}$是光程差，$d$是晶格距离，比如钠原子的距离\\
+					{\red 注意：}和光的干涉相比，X射线晶格衍射的光程差多了上式标红的2
+				\end{minipage}
+	\item 电子的波粒二象性：粒子性：Compton散射；波动性：衍射（同上述X射线晶格衍射）、电子显微镜、电子光谱
+	\item	中子的波粒二象性：粒子性：中子射线；波动性：中子显微镜、衍射
+	\item	原子的波粒二象性：粒子性：Bohr氢原子理论、F-H实验；波动性：“巨原子”实验、超流BEC\\
+				$\lambda=\frac{h}{\sqrt{2\uppi mk_BT}}$质量小，温度低，波长大，波动性明显
+	\item 分子的波粒二象性：粒子性：化学反应基本粒子；波动性：衍射。$\text{C}_{60}$的衍射实验
+\end{enumerate}
+
+\section{量子物理的基本理论框架}
+\subsection{单电子双缝干涉实验}
+现象：\begin{enumerate}[label=(\arabic*)]
+	\item 单个电子落在屏幕上，随机
+	\item 多次重复，屏幕上出现明暗条纹
+\end{enumerate}
+
+\subsection{波函数}
+微观世界单个粒子的运动状态，用波函数来描述$\Psi(\vec{r},t)$
+
+\section{公式区}
+\begin{enumerate}[label=(\alph*)]
+	\item $E=h\nu,\quad p=\frac{E}{c}=\frac{h\nu}{c}=\frac{h}{\lambda}$
+	\item $v=\lambda \nu,\quad p=\frac{h}{\lambda}$
+\end{enumerate}
+
+\section{草稿区}
+\[\frac{\dif}{\dif x}\frac{\dif y}{\dif y'}=\frac{\dif}{\dif y'}\frac{\dif y}{\dif x}=\frac{\dif}{\dif y'}y'=1\]
+
+\end{document}

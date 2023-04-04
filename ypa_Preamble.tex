@@ -1,0 +1,68 @@
+\usepackage{NotesTeX}%笔记宏包
+\usepackage{ctex}%提供中文
+%------------------Math Package-------------------
+\usepackage{amsmath}%提供数学等
+\usepackage{amssymb}%一些特殊但是也常用的数学符号
+\usepackage{amsthm}%数学环境设置
+\usepackage{upgreek}%直立体pi等
+\usepackage{esvect}%提供向量箭头，命令为\vv{*}
+\usepackage{esint}%提供\oiint
+\usepackage{extarrows}%提供箭头和等号
+\usepackage{bm}%提供数学环境下的粗体
+\usepackage{xcolor}
+%------------------utility-------------------
+%\usepackage[most]{tcolorbox}%提供盒子环境,用来制作theorem等环境
+\usepackage{booktabs}%三线表
+\usepackage{enumitem}%提供enumerate等环境label的设置
+\usepackage{siunitx}%国际制单位
+\usepackage{framed}%实现方框效果
+%------------------Graphics-------------------
+\usepackage{tikz}%TikZ绘图包
+\usetikzlibrary{arrows.meta}%提供不同的TikZ箭头
+\usetikzlibrary{decorations.pathreplacing}%提供不同的TikZ大括号
+%\usepackage{newtxtext}
+%------------------Page Design-------------------
+\usepackage{geometry}%提供页面设计
+\geometry{a4paper,centering,scale=0.8}
+
+\usepackage{lipsum} % 该宏包是通过 \lipsum 命令生成一段本文，即乱序假文，正式使用时不需要引用该宏包
+
+\usepackage{hyperref}%提供超链接
+
+% ------------------Math Theorem environment-------------------
+%\newtcbtheorem[number within = section]{definition}{定义}{%
+%    boxrule=0pt,
+%    boxsep=0pt,
+%    colback={white!90},
+%    enhanced jigsaw,
+%    borderline west={2pt}{0pt}{red},
+%    sharp corners,
+%    before skip=10pt,
+%    after skip=10pt,
+%    breakable,
+%}{mydefinition}
+
+\newcommand{\const}{\mathrm{const}}
+\newcommand{\defeq}{\xlongequal{\mathrm{def}}}%定义符号,也可以直接用amssymb的\triangleq
+
+\newcommand*{\dif}{\mathop{}\!\mathrm{d}}
+\DeclareMathOperator{\e}{e}
+\renewcommand\vec[1]{\vv{\bm{#1}}}
+\newcommand\ceil[1]{\left\lceil#1\right\rceil}
+\newcommand\floor[1]{\left\lfloor#1\right\rfloor}
+\newcommand\mangle[1]{\langle#1\rangle}
+\renewcommand{\oiint}{\varoiint}
+\newcommand{\red}{\color{red}}
+\newcommand{\blue}{\color{blue}}
+\newcommand{\green}{\color{green}}
+
+\renewcommand{\geq}{\geqslant}
+\renewcommand{\leq}{\leqslant}
+\newcommand*{\E}{\mathbb{E}}
+\renewcommand*{\P}{\mathbb{P}}
+\newcommand*{\cov}{\mathrm{Cov}}
+\renewcommand*{\var}{\mathrm{Var}}
+\newcommand*{\iid}{\mathop{}\!\mathrm{i.i.d.}}
+\newcommand{\injective}{\hookrightarrow}
+\newcommand{\surjective}{\twoheadrightarrow}
+\newcommand{\bijective}{\stackrel{\sim}{\rightarrow}}

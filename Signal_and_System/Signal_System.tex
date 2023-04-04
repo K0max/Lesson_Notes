@@ -1,0 +1,125 @@
+\documentclass{article}
+
+\input{../ypa_Preamble.tex}
+\everymath{\displaystyle}
+
+\title{\textsc{Signal and System Notes}}
+\author{ypa}
+\date{2022.12.28\\%
+Last Modified:\today}
+
+\newcommand{\Ev}{\mathrm{Ev}}
+\newcommand{\Od}{\mathrm{Od}}
+
+\begin{document}
+\maketitle
+\section{前言}
+\noindent 我为什么写这份笔记。众所周知，笔记是写给自己看的，当我学这门课的时候，我发现几个很严重的问题：\\
+首先，课本写的非常地厚，不出所料是一堆{\red 屎山}。每个章节有用的东西完全可以浓缩成几页纸几分钟看完。\\
+其次，跟上面那条类似，老师讲课的内容也可以在十分钟内看完，但是由于课本的奇妙，很难抓到有用的重点。\\
+然后，国内外、国内不同学校{\red 讲课内容不重叠}，不同专业之间需要学习的深度不同，不同教材、学校、老师使用的符号系统不同，导致我找同学借来的华科课件失效。\\
+做作业的时候发现过于困难，且本门课有期中考，故在学期1/4的时候开始写笔记，旨在把课本的内容浓缩成一份简洁易懂的笔记。目标是{\red 仅需}此份笔记，无需其他一切教材学完这门课。简而言之，就是把这份笔记直接当做{\red 自学教材}而非参考或复习资料\\
+
+%\tableofcontents
+
+\section{信号和系统的数学描述及其性质}
+\begin{enumerate}[label=(\arabic*)]
+  \item 单位阶跃信号：$u(t)=\begin{cases} 1,t>0 \\ 0,t<0 \end{cases}\text{或}\quad
+				u[n]=\begin{cases} 1,n{\,\red \geq\,\,}0 \\ 0,n>0 \end{cases}$
+	\item 单位冲激信号：离散形式（简单）：$\delta[n]=\begin{cases} 1,n=0 \\ 0, n\neq 0 \end{cases}$\\
+				连续形式（复杂）：Dirac定义：$\begin{cases} \int_{-\infty}^{+\infty}\delta(t)\dif t=1 \\ \delta(t)=0,t\neq 0 \end{cases}$\\
+				跟离散形式相比，连续形式的$\delta(0)=\infty$，并且这个无穷是根据积分式定义出来的有意义的无穷
+	\item 单位阶跃信号与单位冲激信号的关系：$\delta(t)=\frac{\dif }{\dif t}u(t),\quad u(t)=\int \delta(t)\dif t$
+	\item 信号的周期性：$\tilde{x}(t)=\tilde{x}(t\pm T),T\in\mathbb{R}$或$\tilde{x}[n]=\tilde{x}[n\pm N],N\in\mathbb{Z}$
+	\item 信号的奇偶性：$x(t)=x_e(t)+x_o(t)$\\
+				$x_e(t)=\Ev[x(t)]=\frac{x(t)+x(-t)}{2},x_o(t)=\Od[x(t)]=\frac{x(t)-x(-t)}{2}$
+	\item 信号的分类：能量信号和功率信号，分类标准：能量$E_x$和功率$P_x$\\
+				$E_x=\int_{-\infty}^{+\infty}|x(t)|^2\dif t\text{或}E_x=\sum_{-\infty}^{\infty}|x[n]|^2$\\
+				$P_x=\lim_{T \to \infty}\frac{1}{2T}\int_{-T}^{T}|x(t)|^2\dif t=\lim_{N \to \infty}\frac{1}{2N+1}\sum_{n=-N}^{N}|x[n]|^2$\\
+				\begin{enumerate}[label=(\roman*)]
+					\item 若$0<E_x<\infty,P\to 0$，则$x(t)$是能量受限信号（简称能量信号）
+					\item 若$E_x\to\infty,0<P<\infty$，则$x(t)$是功率受限信号（简称功率信号）
+					\item 若$E_x\to\infty,P_x\to\infty$，则称为非能非功信号
+				\end{enumerate}
+				为啥没有别的情况？用数学计算易证其他情况不存在
+	\item 互相关函数与自相关函数：分能量信号和功率信号\\
+				\begin{enumerate}
+					\item 能量信号：\\
+								互相关函数：$R_{xv}(\tau)=\int_{-\infty}^{\infty}x(t+\tau)v^*(t)\dif t \text{或} R_{xv}[m]=\sum_{n=-\infty}^{\infty}x[n+m]v^*[n]$
+								自相关函数：$Rx(\tau)=\int_{-\infty}^{+\infty}x(t)x^*(t-\tau)\dif t=\int_{-\infty}^{\infty}x(t)x^*(t-\tau) \text{或} R_x[m]=\sum_{n=-\infty}^{\infty}x[n+m]x^*[n]=\sum_{n=-\infty}^{\infty}x[n]x^*[n-m]$
+					\item 功率信号：\\
+								互相关函数：$R_{xv}(\tau)=\lim_{T \to \infty}\frac{1}{2T}\int_{-T}^{T}x(t+\tau)v^*(t)\dif t \text{或} R_{xv}[m]=\lim_{N \to \infty}\frac{1}{2N+1}\sum_{n=-T}^{T}x[n+m]v^*[n]$\\
+								自相关函数：$Rx(\tau)=\lim_{T \to \infty}\frac{1}{2T}\int_{-T}^{T}x(t)x^*(t-\tau)\dif t=\lim_{N \to \infty}\frac{1}{2N+1}\sum_{n=-T}^{T}x[n+m]x^*[n]$
+					\item 周期信号（特殊的功率信号，易证）\\
+								$\tilde{R}_x(\tau)=\frac{1}{T}\int_{\mangle{T}}\tilde{x}(t+\tau)\tilde{x}^*(t)\dif t \text{或} \tilde{R}_x[m]=\frac{1}{N}\sum_{n=0}^{N-1}\tilde{x}[n+m]\tilde{x}^*[n]$
+				\end{enumerate}
+				\begin{remark}
+					上述$^*$表示该信号是个复值信号，$^*$即为共轭，如果是实信号，那共轭等于本身;$\mangle{T}$表示任意长度为$T$的周期区间
+				\end{remark}
+	\item 系统的性质：
+				\begin{enumerate}[label=(\roman*)]
+					\item 线性性：对$y(t)=x(t)$，令$x(t)=\alpha x_1(t)+\beta x_2(t)$，有$y(t)=\alpha y_1(t)+\beta y_2(t)$\\
+								{\red 此外还要求}：零输入零输出。即$y(t)=x(t)+1$是非线性的，因为令$x(t)=0,y(t)=1\neq 0$，所以与其说是线性函数，更像是正比例函数。课本描述如下：\\
+								系统$y=T\{x(t)\}$对两个输入$x_1(t)\to y_1(t),x_2(t)\to y_2(t)$，如果同时满足：
+								\begin{enumerate}[label=(\alph*)]
+									\item 可加性：$x_1(t)+x_2(t)\to y_1(t)+y_2(t)$
+									\item 比例性或其次性：$cx_1(t)\to cy_1(t)$
+								\end{enumerate}
+					\item 记忆性：每一时刻的输出仅取决于同一时刻的输入信号，则称为{\red 无}记忆性（即时系统）；否则称为有记忆性（动态系统）\\
+								{\red 注意！无记忆性是仅取决于当前，记忆性是取决于当前过去和未来}。课本描述如下：\\
+								无记忆系统的输入输出特性：$y=f(x)$
+					\item 因果性：任意时刻的输出信号仅取决于当前和过去的输入，与未来的输入无关，则具有因果性（因果系统）；否则为非因果。课本描述为\\
+								对任何$t$有$y(t)=f\{x(t-\tau),\tau \geq 0\}$
+					\item 稳定性：输入信号有界时，输出也有界，则称为稳定；否则称为不稳定
+					\item 可逆性：根据系统的输出信号可以唯一确定其输入信号，则称为可逆；否则称为不可逆。简单点说就是一一映射
+					\item 时不变性：若输入信号有一个时移，在输出信号有相同的时移，则称为时不变；否则称为时变。课本描述如下：\\
+								对$x(t)\to y(t)$，在任何输入信号下，对任何$t_0$都分别有$x(t-t_0)\to y(t-t_0)$，则该系统是时不变的。
+				\end{enumerate}
+				\begin{remark}
+					所有无记忆系统（仅与当前有关）必为因果（与未来无关），但反之未必成立。上述性质理解起来要用信号与系统的思维，输入输出是两串数列，数列的下标即为时间。上述描述时为了省事，仅写出连续信号的情况，离散同理
+				\end{remark}
+\end{enumerate}
+
+\section{LTI系统的时域分析和信号卷积}
+\begin{enumerate}[label=(\arabic*)]
+	\item LTI系统意为线性时不变系统(Linear Time-Invariant)
+	\item 离散信号可以分解为时移单位冲击的线性组合：$x[n]=\sum_{k=-\infty}^{\infty}x[k]\delta[n-k]$（展开易证），单位阶跃信号展开式：$u[n]=\sum_{k=0}^{\infty}\delta[n-k]$
+	\item 卷积运算：$x[n]*v[n]=\sum_{k=-\infty}^{\infty}x[k]v[n-k],\quad x(t)*v(t)=\int_{-\infty}^{+\infty}x(\tau)v(t-\tau)\dif \tau$
+	\item 单位冲激响应$h[n]$：当$x[n]=\delta[n]$的时候的输出$h[n]$，即对系统$y[n]=T\{x[n]\}$，有$h[n]=T\{\delta[n]\}$。得到了$h[n]$，则有重要的下式\\
+				$\red y[n]=x[n]*h[n]=\sum_{k=-\infty}^{\infty}x[k]h[n-k]$（展开易证）
+	\item 卷积运算的性质：
+				\begin{enumerate}[label=(\roman*)]
+					\item 可交换：$x(t)*h(t)=h(t)*x(t)$
+					\item 结合律：$[x(t)*h_1(t)]*h_2(t)=x(t)*[h_1(t)*h_2(t)]$
+					\item 分配律：$x(t)*[h_1(t)+h_2(t)]=x(t)*h_1(t)+x(t)*h_2(t)$
+					\item 求导：$[x(t)*h(t)]'=x'(t)*h(t)=x(t)*h'(t)$利用这个性质，有推论$x(t)*h(t)=x'(t)*\int h(t)\dif t$\\
+								$\frac{\dif^k}{\dif t^k}[x(t)*h(t)]=x(t)*\frac{\dif^k}{\dif t^k}h(t)=\frac{\dif^k}{\dif t^k}x(t)*h(t)$
+					\item 积分：$\int_{-\infty}^{t}[x(\tau)*h(\tau)]\dif\tau=x(t)*\left[\int_{-\infty}^{t}h(\tau)\dif\tau\right]=\left[\int_{-\infty}^{t}x(\tau)\dif\tau\right]*h(t)$
+					\item 冲激函数的卷积：$x(t)*\delta(t)=x(t)$（别卷了，卷了也是白卷）\\
+								延时：$x(t)*\delta(t-t_0)=x(t-t_0)$
+					\item 单位冲激响应的延时：对$y(t)=x(t)*h(t)$有$x(t-t_0)*h(t)=x(t)*h(t-t_0)=y(t-t_0)$，此处$h(t)$是单位冲激响应
+				\end{enumerate}
+				\begin{remark}
+					上述未标明是单位冲激响应的$h(t)$则是任意信号，写成$v(t),a(t)$也一样。
+				\end{remark}
+	\item 做题中常用到的性质：
+				\begin{enumerate}[label=(\roman*)]
+					\item $u[n]-2u[n-1]+3u[n-2]=\delta[n]-\delta[n-1]+2\delta[n-2]$（因为$n=0,1,2$的时候才不为零，可以列举得到）
+					\item $x*h=x'*\int h\dif t$
+				\end{enumerate}
+	\item 相关函数：在第二章定义过，能量信号的互相关函数为：\\
+				$R_{xg}(t) = \int_{-\infty}^{+\infty}x(\tau)g^*(\tau-t)\dif\tau = x(t)*g^*(-t)$
+	\item 周期卷积：$\tilde{y}(t)=\tilde{x}_1(t)\circledast\tilde{x}_2(t)=\int_{\mangle{T}}\tilde{x}_1(\tau)\tilde{x}_2(t-\tau)\dif\tau$或\\
+				$\tilde{y}[n]=\tilde{x}_1[n]\circledast\tilde{x}_2[n]=\sum_{k\in\mangle{N}}\tilde{x}_1[k]\tilde{x}_2[n-k]$
+	\item 单位冲激响应表征的性质：若输出位输入与某个时间函数或序列的卷积，则为LTI。$y(t)=T\{x(t)\}=x(t)*f(t)$，则该系统为LTI，且$h(t)=f(t)$
+	\item LTI系统的一些性质：
+				\begin{enumerate}[label=(\roman*)]
+					\item 记忆性：无记忆性的LTI必须满足：$h(t)=0,(t\neq 0)$
+					\item 因果性：LTI的因果性判据：$h(t)=0,(t<0)$
+					\item 稳定性：充要条件：$\int_{-\infty}^{\infty}|h(t)|\dif t<\infty$
+				\end{enumerate}
+\end{enumerate}
+
+\section{用微分方程或差分方程描述的系统}
+
+\end{document}

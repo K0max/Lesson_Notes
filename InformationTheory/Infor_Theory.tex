@@ -1,0 +1,211 @@
+\documentclass{article}
+
+\input{../ypa_Preamble.tex}
+\everymath{\displaystyle}
+
+\title{\textsc{Notes on Information Theory}}
+\author{ypa}
+\date{2022.12.28\\%
+Last Modified:\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{熵、相对熵与互信息}
+\begin{definition}
+	一个离散型随机变量$X$的熵$H(X)$定义为
+	\[H(X)=-\sum_{x\in \mathcal{X}}p(x)\log p(x)=\E_p\left[\log \frac{1}{p(X)}\right]\]
+\end{definition}
+\begin{remark}
+	一个特殊的熵函数:\[H(p) = -p\log p-(1-p)\log (1-p)\]
+	此为Bernoulli分布的熵
+\end{remark}
+\begin{enumerate}[label=(\arabic*)]
+	\item 一些概念性的理解
+				\begin{enumerate}[label=(\alph*)]
+					\item 信息量是概率的单调递减函数(概率小,信息量大)
+					\item 熵是信息量的期望.$H(X,Y) = H(X+Y,X-Y)$为什么?因为$X,Y$蕴含的信息量和$X+Y,X-Y$是一样的.知道了$U=X+Y,V=X-Y$的值那么唯一确定$X,Y$的值.所以他们的信息量相同.其中构造了{\red 双射}$(X,Y)\bijective (U,V)$\quad ({\red 3.40})
+				\end{enumerate}
+	\item 自信息量$I(x)=I(p(x))=-\log p(x)$,对统计独立事件有$I(x_i,x_j)=I(x_i)+I(x_j)$\quad ({\red 2.7})
+	\item 联合熵$H(X,Y)=-\sum_x \sum_y p(x,y)\log p(x,y)$
+	\item 条件熵$H(Y|X) = \sum_x p(x)H(Y|X=x) = -\sum_x \sum_y p(x,y)\log p(y|x) = -\E_{p(x,y)}\log p(Y|X)$
+	\item 互信息$I(X;Y)=\sum_x \sum_y p(x,y)\log \frac{p(x,y)}{p(x)p(y)} = D(p(x,y)||p(x)p(y))=\E_{p(x,y)}\left[\log \frac{p(X,Y)}{p(X)p(Y)}\right]$
+	\item 相对熵$D(p||q)=\sum_x p(x)\log \frac{p(x)}{q(x)}=\E_p\left[\log \frac{p(X)}{q(X)}\right]$\quad ({\red 2.35})
+	\item 条件互信息$I(X;Y|Z) = H(X|Z)-H(X|Y,Z) = \E_{p(x,y,z)}\left[\log \frac{p(X,Y|Z)}{p(X|Z)p(Y|Z)}\right]$\quad ({\red 2.39})
+	\item 条件相对熵$D(p(y|x)||q(y|x)) = \sum_x p(x)\sum_y p(y|x)\log \frac{p(y|x)}{q(y|x)} = \E_{p(x,y)}\left[\log \frac{p(Y|X)}{q(Y|X)}\right]$
+				\begin{remark}
+					注意到上述定义式中期望使用的概率都是$p(x,y,z,\cdots)$,即不论期望符号中的函数$f(x,y,\cdots )$是否是条件概率,都是使用联合概率$p(x,y,z,\cdots)$来计算的,唯一的区别在于$\log $符号右边的东西.
+				\end{remark}
+	\item 一些等式:\quad ({\red 2.18})
+				\begin{enumerate}[label=(\alph*)]
+					\item $I(X;Y) = H(X)-H(X|Y) = H(Y)-H(Y|X)$
+					\item $H(X,Y) = H(X)+H(Y|X) = H(Y)+H(X|Y) = H(X)+H(Y)-I(X;Y)$
+				\end{enumerate}
+				一些链式法则:\quad ({\red 2.15,2.29})
+				\begin{enumerate}[label=(\alph*)]
+					\item 熵:$H(X_1,X_2,\cdots ,X_n) = \sum_{i=1}^{n}H(X_i|X_1,\cdots ,X_{i-1})$
+					\item 互信息:$I(X_1,X_2,\cdots ,X_n|Y) = \sum_{i=1}^{n}I(X_i;Y|X_1,\cdots ,X_{i-1})$
+					\item 相对熵:$D(p(x,y)||q(x,y)) = D(p(x)||q(x))+D(p(y|x)||q(y|x))$
+				\end{enumerate}
+				\begin{remark}
+					链式法则的一些胡思乱想:
+					\begin{enumerate}[label=(\alph*)]
+						\item 对于熵$H(X_1,\cdots ,X_n)$,其链式法则和条件概率相同,只不过由概率论的乘号改为加号.
+						\item 对于互信息$I(X_1,\cdots ,X_n;Y) = I(Y;X_1,\cdots ,X_n)$跟熵很像,只不过在$X_1,\cdots X_n$序列前加了一个$Y;$
+						\item 熵的减法运算:$H(Z|X)-H(Z|X,Y)$,令$A=Z|X$,有\\
+									$H(A)-H(A{\red |}Y) = I(A;Y) = I(Y;Z|X)$\\
+									{\red 注意:}$H(Z|X,Y) = H(A|Y)$,因为$Y$本身也是条件作用
+					\end{enumerate}
+				\end{remark}
+	\item Jensen不等式:对于凸函数$f(x):\E(f(X))\geq f(\E(X))$
+				\begin{example}
+					三个正方形,边长均值10,面积均值100,求证这三个正方形面积相等.
+					$f(x)=x^2\quad \frac{f(x_1)+f(x_2)+f(x_3)}{3}\geq f\left(\frac{x_1+x_2+x_3}{3}\right)\Rightarrow 100\geq f(10)$取等条件$x_1=x_2=x_3$
+				\end{example}
+	\item 对数和不等式:$\sum_{i=1}^{n}a_i \log \frac{a_i}{b_i}\geq \left(\sum_{i=1}^{n}a_i\right)\log \frac{\sum_{i=1}^{n}a_i}{\sum_{i=1}^{n}b_i}$
+	\item	相对熵的{\red 凸性}:$\lambda D(p_1||q_1)+(1-\lambda)D(p_2||q_2) \geq D(\lambda p_1+(1-\lambda)p_2||\lambda q_1+(1-\lambda)q_2)$
+	\item 熵的{\red 凹性}:$\lambda H(p_1)+(1-\lambda)H(p_2)\leq H(\lambda p_1+(1-\lambda)p_2)$
+	\item 互信息的{\red 凹凸性}:固定$p(x|y)$,$I(X;Y)$是$p(x)$的凹函数;固定$p(x)$,$I(X;Y)$是$p(y|x)$的凸函数
+	\item 满足$p(x,y,z) = p(x)p(y|x)p(z|y)$的一系列变量称为马尔可夫链,记为$X\to Y\to Z$.\\
+				\begin{enumerate}[label=(\alph*)]
+					\item $X\to Y\to Z$蕴含$Z\to Y\to X$
+					\item {\red 若$Z=f(Y)$,则$X\to Y\to Z$}
+				\end{enumerate}
+				\begin{remark}
+					注意,与随机过程中的时序Markov链不同,此处的马尔可夫链仅需满足定义式,无关时间序列.不要以随机过程角度来理解.$\to $箭头更像是数理逻辑的蕴含
+				\end{remark}
+	\item 数据处理不等式:{\red 若$X\to Y\to Z$},有$I(X;Y)\geq I(X;Z)$.\\
+				推论:$Z=g(Y)\Rightarrow I(X;Y)\geq I(X;g(Y))$(此处不需要条件$X\to Y\to Z$,因为$Z=g(Y)$蕴含着马氏链,参见(15)(b))\\
+				推论:若$\red X\to Y\to Z$,则$I(X;Y|Z)\leq I(X;Y)$.当不构成马氏链时,此式不必成立.\textbf{反例:}$X,Y$独立且$Z=X+Y$,但$I(X;Y)=0\leq I(X;Y|Z)$
+	\item Fano不等式:定义$\hat{X}=g(Y)$是以$Y$来参推测$X$.故$X\to Y\to \hat{X}$为马氏链.定义{\red 误差概率}为$P_e = \P(\hat{X}\neq X)$.有
+				\[H(P_e)+P_e\log |\mathcal{X}| \geq H(X|\hat{X}) \geq H(X|Y)\qquad \text{此处$\red H(P_e)$为Bernoulli熵}\]
+				可弱化为$1+\log P_e\log |\mathcal{X}| \geq H(X|Y)$或$P_e\geq \frac{H(X|Y)-1}{\log |\mathcal{X}|}$\\
+				推论:对任意两个随机变量$X,Y$设$P_e = \P(X\neq Y)$,有$H(p)+p\log |\mathcal{X}| \geq H(X|Y)$\\
+				推论:设$P_e = \P(X\neq \hat{X})$,$\hat{X}:\mathcal{Y}\injective \mathcal{X}$,则$H(P_e)+P_e\log (|\mathcal{X}|-1) \geq H(X|Y)$
+	\item 若$X,X'$独立同分布,则$\P(X=X') \geq 2^{-H(X)}$\\
+				证明使用Jensen不等式:$\E[2^{\log p(X)}] \geq 2^{E[\log p(X)]}$\\
+				我猜是$f(x)=2^x,\E[f(\log p(X)) ] = \E[2^{\log p(X)}]\quad f(\E[\log p(X)]=2^{\E[\log p(X)]})$
+\end{enumerate}
+
+\section{渐进均分性}
+\begin{enumerate}[label=(\arabic*)]
+	\item 渐进均分性定理:$X_1,\cdots ,X_n\iid \sim p(x),when n\to \infty:$有
+				\[\begin{aligned}
+					&= -\frac{1}{n}\log p(X_1,\cdots ,X_n) = -\frac{1}{n}\log \prod p(x) = -\frac{1}{n}\sum \log p(X_i)\\
+					&= \E[-\log p(X)] = H(X)
+				\end{aligned}\]
+	\item 典型集:$A_{\varepsilon}^{(n)}\defeq x_1,\cdots ,x_n\in \mathcal{X}^n$,且满足
+				\[2^{-n(H(X)+\varepsilon)}\leq p(x_1,\cdots ,x_n)\leq 2^{-n(H(X)-\varepsilon)}\]
+				{\red 注意:}此处不要求$n\to \infty$及$\varepsilon \to 0$,性质:
+				\begin{enumerate}[label=(\alph*)]
+					\item $H(X)-\varepsilon \leq -\frac{1}{n}\log p(x_1,\cdots ,x_n)\leq H(X)+\varepsilon$
+					\item 当$n$充分大时,以非零概率出现的元素(几乎)都是典型集中的元素,即$p\{A_{\varepsilon}^{(n)}\}>1-\varepsilon$
+					\item 元素个数上界$|A_{\varepsilon}^{(n)}|\leq 2^{n(H(X)+\varepsilon)}$
+					\item 当$n$充分大时,$|A_{\varepsilon}^{(n)}|\geq (1-\varepsilon)2^{n(H(X)-\varepsilon)}$
+				\end{enumerate}
+\end{enumerate}
+
+\section{随机过程的熵率}
+\begin{enumerate}[label=(\arabic*)]
+	\item 熵率:当极限存在时,随机过程$\{X_i\}$的熵率定义为$H(\mathcal{X}) = \lim_{n \to \infty}\frac{1}{n}H(X_1,\cdots ,X_n)$\\
+				对独立同分布的随机变量序列$X_1,\cdots X_n$有$H(\mathcal{X}) = H(X_1)$\\
+				对独立非同分布:$H(X_1,\cdots X_n) = \sum_{i=1}^{n}H(X_i)$但$\lim_{n \to \infty}\frac{1}{n}\sum_{i=1}^{n}H(X_i)$极限不存在
+	\item 定义熵率的{\red 相关量}:$H'(\mathcal{X}) = \lim_{n \to \infty}H(X_n|X_{n-1},\cdots ,X_1)$\\
+				对{\red 平稳过程},$H(\mathcal{X}),H'(\mathcal{X})$极限均存在且相等
+	\item 对平稳的马氏链:$H(\mathcal{X}) = H'(\mathcal{X}) = H(X_2|X_1)$
+	\item 平稳分布$\vec{\mu} = (\mu_1,\cdots ,\mu_n)^T\quad \mu_j = \sum_i \mu_i P_{ij}\quad \sum_i \mu_i = 1$
+	\item 设$\{X_i\}$为平稳马氏链,平稳分布为$\vec{\mu}$,转移概率矩阵为$\vec{P}_{ij}$,其熵率为
+				\[H(\mathcal{X}) = H(X_2|X_1) = \sum_i \mu_i \left(\sum_j (-P_{ij}\log P_{ij})\right) = -\sum_{ij}\mu_i P_{ij}\log P_{ij}\]
+	\item 两状态马氏链:$H(\mathcal{X}) = H(X_2|X_1) = \frac{\beta}{\alpha+\beta}H(\alpha)+\frac{\alpha}{\alpha+\beta}H(\beta)$
+	\item 若马氏链不可约非周期(遍历),则平稳分布唯一.对{\red 任意}初始分布,当$n\to \infty$时,分布都趋于此平稳分布.即使初始分布不是平稳分布,也有(3)(5)成立
+	\item 无向加权图上的随机游动:$P_{ij} = \frac{W_{ij}}{\sum_k W_{ik}}\quad W_i = \sum_j W_{ij}$\\
+				$W=\sum_{\red i<j}W_{ij}\quad \sum_i W_i = 2W$,则平稳分布为$\mu_i = \frac{W_i}{2W} = \frac{W_i}{\sum_i W_i}$\\
+				若所有边的权重相同,则$\mu_i = \frac{E_i}{2E} = \frac{E_i}{\sum_i E_i}$,熵率为$H(\mathcal{X}) = \log(2E) - H\left(\frac{E_1}{2E},\cdots ,\frac{E_m}{2E}\right)$
+	\item 双随机:对概率转移矩阵$(\bm{P})_{ij}$满足$\sum_i P_{ij} = 1(\text{本条是特殊的})\quad \sum_j P_{ij} = 1$
+	\item 对平稳的Markov过程:条件熵$H(X_n|X_1)$随$n$递增.
+	\item 洗牌使熵增$H(TX) \geq H(X)$,其中$T$是洗牌代表的映射
+	\item 马尔可夫链的函数:若$\{X_i\}$是{\red 平稳的}马氏链,且$Y_i=\phi(X_i)$,则
+				\[
+					\begin{aligned}
+						H(Y_n|Y_{n-1},\cdots ,Y_1,X_1) &\leq H(\mathcal{Y}) \leq H(Y_n|Y_{n-1},\cdots ,Y_1)\\
+						\lim_{n \to \infty}H(Y_n|Y_{n-1},\cdots ,Y_1,X_1) &= H(\mathcal{Y}) = \lim_{n \to \infty}H(Y_n|Y_{n-1},\cdots ,Y_1)
+					\end{aligned}
+				\]
+\end{enumerate}
+
+\section{数据压缩}
+\begin{enumerate}[label=(\arabic*)]
+	\item 信源编码$C$是一个映射$C:\mathcal{X}\bijective \mathcal{D}^*$,$\mathcal{X}$是$X$的取值空间,$\mathcal{D}^*$是$D$元字母表上有限长度的字符串组成的集合.($\textbf{len}(\mathcal{D}^*)=D$)\\
+				$x$的码字:\,$C(x)$ \quad $C(x)$的长度:\,$l(x)$
+	\item 期望长度:$L(C) = \sum_{x\in \mathcal{X}}p(x)l(x)$
+				\begin{example}
+					$\mathcal{X}=\{1,2,3,4\},C(\mathcal{X}) = \{0,10,110,111\}$.此时$H(X) = L(C) = \E_{p}[l(X)] = 1.75\text{bits}$,为啥要把$\mathcal{X} = \{1,2,3,4\}$加密成奇怪的样子呢?交替的$0,1$使得压缩后的字符串序列{\red 唯一可译}\mn{参考Huffman编码}\\
+					比如刚才的例子,如果$C=0110111100110$则唯一解为$134213$
+				\end{example}
+	\item 非奇异的(nonsingular):$x\neq x'\Rightarrow C(x)\neq C(x')$\\
+				$C^*$:$C$的扩展(extension),$C(x_1\cdots x_n) = C(x_1)C(x_2)\cdots C(x_n)$\\
+				若$C$的扩展$C^*$是非奇异的,则该编码唯一可译
+				前缀码(prefix code):若码中无任何码字是其他码字的前缀,或称即时码\mn{读字符串时,直接顺着字符序列看下去,无需参考后面的码字}(instantaneous code)
+	\item Kraft不等式:对某个$D$元字母表上的即时码(前缀码),码字长度$l_1,l_2,\cdots ,l_m$必定满足$\red \sum_i D^{-l_i} \leq 1$\\
+				反之,若给定满足上述不等式的一组码字长度,则存在一个相应的即时码,其码字长度就是给定的长度\\
+				构建一个$D$叉树,每一码字都去除了它的可能成为码字的所有后代.第$l_i$层码字拥有$D^{l_{l\max}-l_i}$个后代.所有这样的后代集不相交.
+	\item Kraft不等式的推广:对任意构成前缀码的可数无限码字集,码字长度满足:
+				\[\sum_{i=1}^{\infty}D^{-l_i} \leq 1\]
+				反之,给定任意满足推广的Kraft不等式的$l_1,\cdots ,l_n$,则可构造出具有相应码长的前缀码.
+	\item 最优码:$L=\sum_i p_i l_i$最短:
+				\[\min L = \min\sum_i p_i l_i \quad \text{subject to} \quad \sum_i D^{-l_i} \leq 1\]
+				使用Lagrange乘数法:$J = \sum_i p_i l_i+\lambda(\sum_i D^{-l_i})$,后面略.\\
+				结论:$l_i^* = -\log_{\red D}p_i \quad L^* = \sum_i p_i l_i^* = -\sum_i p_i \log_{\red D} p_i = H_{\red D}(X)$\\
+				但由于$l_i$必须为整数,故上式不一定满足.
+	\item $X$的任意$D$元即时码的期望长度$L(C)$必定大于或等于熵$H_D(X)$,即\\
+				$L\geq H_D(X)$,当且仅当$D^{-l_i} = p_i$取等号.令$H\defeq H_D(X)$,有
+				\[
+					\begin{aligned}
+						L-H &= \sum_i p_i l_i - \sum_i p_i \log_D \frac{1}{p_i}\\
+						&= -\sum_i p_i \log_D D^{-l_i}+\sum_i p_i \log_D p_i\\
+						&= \sum_i p_i \log_D \frac{p_i}{r_i} - \log_D c_i \quad \left(r_i=\frac{D^{-l_i}}{\sum_j D^{-l_j}},\quad c=\sum_i D^{-l_i}\right)\\
+						&= D(\bm{p}||\bm{r})+\log_D \frac{1}{c}\\
+						&\geq 0
+					\end{aligned}
+				\]
+	\item 最优码长的界:给定信源分布$p$和一个$D$元字母表,最优码长的期望满足:$H_D(X)\leq L^*<H_D(X)+1$
+	\item 香农码:$l(x) = \ceil{\log\frac{1}{p(x)}}$
+	\item 哈夫曼编码:将码字的出现概率从大到小排序,每次取最小的节点添加父节点,然后重新排序,直到所有节点加入码树,根据码树确定编码\\
+				$|\mathcal{X}|=1+k(D-1)$\mn{我还不知道这个是啥意思,课本还没看懂,先mark一下,回去看看\href{https://zhuanlan.zhihu.com/p/63614248}{Huffman编码的构造方式}}
+				哈夫曼码是最优的,它提供了最短的期望码长:$L(C^*)\leq L(C')$
+	\item 典则码:
+				\begin{enumerate}[label=(\alph*)]
+					\item 长度序列与概率分布排列的次序相反
+					\item 最长的两个码字具有相同长度
+					\item 最长的两个码字仅在最后一位上有所差别
+				\end{enumerate}
+	\item Shannon-Fano-Elias编码:累积分布函数:$F(x)=\sum_{a{\red\leq}x}p(a)$\\
+				这玩意是前缀码,期望长度是$L<H(X)+2$
+				修正的累积分布函数:$\overline{F}(x)=\sum_{a{\red <}x}p(x)+\frac{1}{2}p(x)$
+	\item $\overline{F}(x)$唯一确定$x$,可作为$x$的编码\\
+				一般来说,$\overline{F}(x)$需用无限多比特表示\\
+				取$\overline{F}(x)$的前$l(x)$作为$x$的编码：$\floor{\overline{F}(x)}_{l(x)}$,\quad $l(x)=\ceil{\log\frac{1}{p(x)}}+1$
+\end{enumerate}
+
+\section{博弈与数据压缩}
+\begin{enumerate}[label=(\arabic*)]
+	\item 
+\end{enumerate}
+
+\section{怪话表}
+\begin{table}[H]
+	\centering
+	\renewcommand\arraystretch{1.8}
+	\begin{tabular}{ccc}\hline
+		符号 & 说明 & 例子\\
+		\hline
+		$\E_{p(x,y)}[f(x,y)]$ & 使用概率$p(x,y)$的$f(x,y)$的期望 & $\E_{p(x,y)}[\log (y|x)]=\sum_{\red x,y}p(x,y)\log p(y|x)$\\ \hline
+		$x^n$ & $n$维向量$\bm{x}$ & $x^n = (x_1,x_2,\cdots ,x_n)$ \\ \hline
+	\end{tabular}
+\end{table}
+
+\section{草稿区}
+$\injective \surjective \bijective$
+
+\end{document}
