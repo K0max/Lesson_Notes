@@ -1,0 +1,259 @@
+\documentclass{article}
+
+\input{../../ypa_Preamble.tex}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\usepackage{multirow}
+\pgfmathdeclarefunction{gauss}{3}{%
+  \pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+
+\title{Probability and Statistics}
+\author{ypa}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Probability}
+\begin{enumerate}[label=(\arabic*)]
+	\item 集合和事件的运算法则:
+				这部分应参照浙大《概率论与数理统计习题全解指南》$\mathbf{P}_{1-2}$
+				\begin{enumerate}[label=(\alph*)]
+					\item 交换律:$A\cap B = B\cap A$
+					\item {\red 结合律}:$A\cap (B\cap C) = (A\cap B)\cap C$
+					\item {\red 分配律}:$A\cap (\bigcup\limits_{i\in I} B_i) = \bigcup\limits_{i\in I}(A\cap B_i)$, $A\cap (\bigcup\limits_{i\in I} B_i) = \bigcup\limits_{i\in I}(A\cap B_i)$
+					\item $A(B+C)=A\cap (B\cup C) = (A\cap B)\cup (A\cap C) = AB+AC$
+					\begin{remark}
+						$\overline{AB}\neq \bar{A}\bar{B}\quad \because AB\equiv A\cap B,\overline{AB}=\overline{A\cap B}=\bar{A}\cup \bar{B}$
+					\end{remark}
+				\end{enumerate}
+				\begin{example}
+					设随机事件$A$和$B$独立,$A$和$C$独立,$B$和$C$互斥.若$\P(A)=\P(B)=\frac{1}{2},\P[AC|(AB\cup C)]=\frac{1}{4}$,则$\P(C)=\frac{1}{4}$\quad ({\red 17-18一(1)})
+					\[\begin{aligned}
+						\P[AC|(AB\cup C)] &= \frac{\P[AC(AB\cup C)]}{\P[AB\cup C]} = \frac{\P(AC\cap AB)+\P(AC\cap C)}{\P(AB)+\P(C)-\P(ABC)}\\
+						&= \frac{\P(ABC)+\P(AC)}{\P(AB)+\P(C)-\P(ABC)} = \frac{0+\P(A)\P(C)}{\P(A)\P(B)+\P(C)-0}\\
+						&= \frac{\P(A)\P(C)}{\P(A)\P(B)+\P(C)} = \frac{1}{4} \Rightarrow \P(C) = \frac{1}{4}
+					\end{aligned}\]
+				\end{example}
+	\item $Y=g(X),X=g^{-1}(Y)=h(y)\Rightarrow f_{Y}(y)=f_{X}(h(y))|h'(y)|\quad (\text{严格单调时})$\\
+				这部分对应浙大书$\mathbf{P}_{48-51}$
+	\item $\displaystyle Z=g(X,Y),Y=h(X,Z)\Rightarrow f_{Z}(z)=\int f_{X,Y}(x,h(x,z))\left|\frac{\partial h}{\partial z}\right|\dif x$\\
+				对应浙大书$\mathbf{P}_{70-86}$
+	\item $\var(aX\pm bY) = a^2\var(X)+b^2\var(Y)$
+	\item $\var(aX+bY) = {\red a^2}\var(X)+{\red b^2}\var(Y)+{\red 2ab}\cov(X,Y)$\quad (全部展开易证, {\red 17-18三,20-21春一(8)})
+	\item 全概率公式:$\P(A)=\sum_i\P(A|B_i)\P(B_i)$\\
+				Bayes公式:$\displaystyle \P(B_i|A) = \frac{\P(A|B_i)\P(B_i)}{\P(A)}=\frac{\P(A|B_i)\P(B_i)}{\sum_i\P(A|B_i)\P(B_i)}$\quad (由全概率推导)
+\end{enumerate}
+
+\section{Statistics}
+\begin{enumerate}[label=(\arabic*)]
+	\item $\frac{\sqrt{n}(\overline{X}-\mu)}{\sigma}\sim N(0,1)\quad \red \frac{X_i-\mu}{\sigma}\sim N(0,1)$第二个简单的形式不要忘了
+	\item 统计量中只有矩(均值,$m$阶矩,原点矩,中心距)除以$n$,其他都除以$n-1$
+	\item 卡方分布:$X_1,X_2,\cdots ,X_n\iid ,X_i\sim N(0,1),\chi _n^2\sim \sum_{i=1}^{n}X_i^2$\\
+				$\E(X)=n,\var(X)=2n,\text{若}X\sim \chi _m^2,Y\sim \chi _n^2,X,Y\text{独立,则}X+Y\sim \chi _{m+n}^2$
+	\item $t$分布:$X\sim N(0,1),t_n\sim \frac{X}{\sqrt{\chi _n^2/n}}$\\
+				$\E(T)=0,\var(T)=\frac{n}{n-2},\lim\limits_{n \to \infty}T\sim N(0,1)$
+	\item $F$分布:$\displaystyle X\sim \chi _m^2,Y\sim \chi _n^2,X,Y\text{独立,则}F_{m,n}\sim \frac{X/m}{Y/n},i.e.\red F_{m,n}\sim \frac{\chi_m^2/m}{\chi_n^2/n}$(没有根号)\\
+				$Z=F_{m,n},\frac{1}{Z}\sim F_{n,m}\qquad T\sim t_n,T^2\sim F_{1,n}\qquad F_{m,n}(1-\alpha)=\frac{1}{F_{n,m}(\alpha)}$
+	\item \begin{enumerate}[label=(\alph*)]
+					\item $\red \frac{(n-1)S^2}{\sigma ^2}\sim \chi^2_{\blue n-1}$,$\overline{X}$和$S^2$独立
+					\item $X_1,X_2,\cdots ,X_n\sim N(\mu,\sigma ^2),\red T=\frac{\sqrt{n}(\overline{X}-\mu)}{S}\sim t_{\blue n-1}$
+					\item $X_1,X_2,\cdots ,X_m\sim N(\mu_1,\sigma ^2)$,$Y_1,Y_2,\cdots Y_n\sim N(\mu_2,\sigma ^2)$,$X_i,Y_i$独立,则\[T=\frac{(\overline{X}-\overline{Y})-(\mu_1-\mu_2)}{S_w\sqrt{\frac{1}{m}+\frac{1}{n}}}\sim t_{n+m-2}\]
+								其中$\displaystyle S_w=\sqrt{\frac{(m-1)S_1^2+(n-1)S_2^2}{n+m-2}}$\qquad ({\red 本条仅当$\sigma_1^2=\sigma_2^2=\sigma^2$时才成立})
+					\item $\sigma_1,\sigma_2$已知,有:\[\frac{(\overline{X}_1-\overline{X}_2)-(\mu_1-\mu_2)}{\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}}\sim N(0,1)\]
+					\item $F=\frac{S_1^2}{S_2^2}\cdot \frac{\sigma_2^2}{\sigma_1^2}\sim F_{m-1,n-1}$
+				\end{enumerate}
+	\item 第一第二类错误(弃真存伪)第一(弃真):$H_0$为真,但被拒绝.第二(存伪):$H_0$为假,但被接受.\\
+	\item 功效函数\begin{definition}
+					$\Psi$为样本$(X_1,X_2,\cdots ,X_n)$,$\bm{\theta}=(\theta_1,\theta_2,\cdots)\in\Theta\in\mathbb{R}^k$为参数.
+					\[\beta_{\Psi}(\bm{\theta})=\P_{\theta}(\text{在检验$\Psi$下$H_0$被否定})\]
+					$\beta_{\Psi}(\bm{\theta})\leq\alpha$称为$H_0$的一个水平为$\alpha$的检验
+				\end{definition}
+	\item 分位数$\alpha$是到$x\text{轴}+\infty$的,置信度$\alpha=0.01$不一定比$\alpha=0.05$更严格,如21-22春一(10)
+				\begin{figure}[H]
+					\centering
+					\begin{tikzpicture}
+						\begin{axis}[
+							no markers, 
+							domain=0:6, 
+							samples=100,
+							ymin=0,
+							axis lines*=left, 
+							xlabel=$x$,
+							every axis y label/.style={at=(current axis.above origin),anchor=south},
+							every axis x label/.style={at=(current axis.right of origin),anchor=west},
+							height=5cm, 
+							width=12cm,
+							xtick=\empty, 
+							ytick=\empty,
+							enlargelimits=false, 
+							clip=false, 
+							axis on top,
+							grid = major,
+							hide y axis
+							]
+							\addplot [very thick,cyan!50!black] {gauss(x, 3, 1)};
+
+							\pgfmathsetmacro\valueA{gauss(1,3,1)}
+							\pgfmathsetmacro\valueB{gauss(2,3,1)}
+							\draw [gray] (axis cs:1,0) -- (axis cs:1,\valueA)
+									(axis cs:5,0) -- (axis cs:5,\valueA);
+							\draw [gray] (axis cs:2,0) -- (axis cs:2,\valueB)
+									(axis cs:4,0) -- (axis cs:4,\valueB);
+							\draw [yshift=1.4cm, latex-latex](axis cs:2, 0) -- node [fill=white] {$0.683$} (axis cs:4, 0);
+							\draw [yshift=0.3cm, latex-latex](axis cs:1, 0) -- node [fill=white] {$0.954$} (axis cs:5, 0);
+							\draw [yshift=0.3cm, latex-latex](axis cs:5, 0) -- node [fill=white] {$\red \alpha$} (axis cs:6, 0);
+
+							\node[below] at (axis cs:1, 0)  {$\mu - 2\sigma$}; 
+							\node[below] at (axis cs:2, 0)  {$\mu - \sigma$}; 
+							\node[below] at (axis cs:3, 0)  {$\mu$}; 
+							\node[below] at (axis cs:5, 0)  {$\red u_{\alpha}$};
+							\end{axis}
+					\end{tikzpicture}
+				\end{figure}
+\end{enumerate}
+
+\appendix
+\section{有些奇怪的地方}
+\begin{enumerate}[label=(\arabic*)]
+	\item 二元正态分布的性质({\red 17-18三:$X,Y$不相关也能直接得到$X-Y$的分布吗?})\\
+		  结论:服从二维正态分布$(\mu_1,\mu_2,\sigma_1^2,\sigma_2^2,\rho)$的$X,Y$的线性组合$aX+bY$仍是正态分布,即
+		  \[\color{blue}(a\mu_1+b\mu_2,a^2\sigma_1^2+b^2\sigma_2^2+2ab\underbrace{\sigma_1\sigma_2\rho}_{\red \cov(X,Y)})\]
+		  从{\red 二维正态分布}的定义出发:
+		  \begin{definition}{二维正态分布}
+				\[f_{X,Y}(x,y) = \frac{1}{2\uppi\sigma_1\sigma_2\sqrt{1-\rho^2}}\exp\left\{-\frac{1}{2(1-\rho^2)}\left[\frac{(x-a)^2}{\sigma^2}-2\rho \frac{(x-a)(x-b)}{\sigma_1\sigma_2}+\frac{(y-b)^2}{\sigma^2}\right]\right\}\]
+				满足上述联合密度函数的$X,Y$才是二维正态分布
+		  \end{definition}
+		  \begin{remark}
+				\begin{enumerate}[label=(\alph*)]
+					\item 若$X,Y$正态且独立,则其必为二维正态,线性组合$aX+bY$必为一元正态
+					\item 若$X,Y$正态且不独立,则未必.若其满足上述$f_{X,Y}(x,y)$的形式,则其线性组合是一元正态.若其不满足上述形式,则其不是二维正态分布,线性组合也就不是一元正态
+				\end{enumerate}
+		  \end{remark}
+\end{enumerate}
+
+\section{一些好题}
+\begin{enumerate}[label=(\arabic*)]
+	\item 17-18三:$Z=|X-Y|,\max (X,Y),\min (X,Y),(X,Y)\sim (\mu_1,\mu_2,\sigma_1,\sigma_2,\rho)$
+	\item 18-19一(5):$Z=XY$,连续变量和离散变量的组合
+	\item 19-20秋一(3):$F_{X}(x)=\frac{2}{\uppi}\sqrt{1-x^2},\,x\in (-1,1).$,$\forall x\in (-1,1)$,若在条件$X=x$下,有$\P(Y=-\sqrt{1-x^2})=\P(Y=\sqrt{1-x^2})=\frac{1}{2}=\frac{1}{2}$,$Y$的密度函数和分布函数能否计算.
+	\item 19-20秋一(4):在$\{(x,y):x^2+y^2\leq 1\}$上随机取两个点,以随机变量$X$表示它们之间的距离,则$\E(X^2)=\underline{\qquad }$
+				\begin{figure}[H]
+					\centering
+					\begin{tikzpicture}[>=Stealth]
+						\draw [->](-3,0)--(0,0)node[below right]{$\bm{O}$}--(3,0)node[below]{$x$};
+						\draw [->](0,-3)--(0,3)node[right]{$y$};
+						\filldraw (0,0)circle(1pt);
+						\draw (2,0)arc(0:360:2);
+						\draw [->](0,0)--(-1,1)node[left]{$r_1$};
+						\draw [->](0,0)--(1.41,0)node[above]{$r_2$};
+						\draw (0.3,0)arc(0:135:0.3);
+						\draw (0.2,0.38)node[]{$\theta$};
+						\draw [red](-1,1)--(1.41,0);
+						\draw (0.3,0.6)node[above]{$\red X$};
+					\end{tikzpicture}
+				\end{figure}
+				\[\begin{aligned}
+					\E(X^2) &= \E(r_1^2+r_2^2-2r_1r_2\cos\theta) = \E(r_1^2)+\E(r_2^2)-2\E(r_1)\E(r_2)\E(\cos \theta)\\
+					&= 2\E(r_1^2)-0 = 2\iint_{x^2+y^2\leq 1}(x^2+y^2)\dif x\dif y = 1\\
+					(\text{或})f_{R}(r) &= \frac{2\uppi r}{\uppi \cdot 1^2} = 2r\\
+					\E(r^2) &= \int_{0}^{1}r^2f_{R}(r)\dif r = \int_{0}^{1}2r^3\dif r = \frac{1}{2}
+				\end{aligned}\]
+	\item 21-22秋二:设$X\sim N(0,1),\{Y|X=x\}\sim N(x,1)$,求$f_{Y}$
+				\[\begin{aligned}
+					f_{X,Y}(x,y) &= f_{Y|X}(y|x)f_{X}(x) = \frac{1}{2\uppi}\e^{-\frac{(y-x)^2+x^2}{2}}\\
+					f_{Y}(y) &= \int_{-\infty}^{+\infty}f_{X,Y}(x,y)\dif x\\
+					&= \frac{1}{2\uppi}\e^{-\frac{y^2}{4}}\int_{-\infty}^{+\infty}\e^{-(x-\frac{y}{2})^2}\dif x\\
+					&= \frac{1}{2\uppi}\e^{-\frac{y^2}{4}}\cdot \sqrt{\uppi} = \frac{1}{2\sqrt{\uppi}}\e^{-\frac{y^2}{2}}
+				\end{aligned}\]
+	\item 21-22春一(3)$X,Y\sim N(0,0;1,1;0)$
+				则\[\begin{split}
+					\E[\sqrt{X^2+Y^2}]&=\iint r\cdot \frac{1}{\sqrt{2\uppi}}\e^{-\frac{x^2}{2}}\cdot \frac{1}{\sqrt{2\uppi}}\e^{-\frac{y^2}{2}}\cdot r\dif r\\
+					&= \int_{0}^{2\uppi}\dif \theta \int_{0}^{\infty}\frac{1}{2\uppi}r^2 \e^{-\frac{r^2}{2}}\dif r\\
+					&= \int_{0}^{\infty}r^2\e^{-\frac{r^2}{2}}\dif r\\
+					&\xlongequal{u=\frac{r^2}{2}}\sqrt{2}\int_{0}^{\infty}\sqrt{u}\e^{-u}\dif u\\
+					&= \sqrt{2}\Gamma \left(\frac{3}{2}\right) = \sqrt{2}\cdot \frac{1}{2}\cdot \Gamma \left(\frac{1}{2}\right) = \frac{\sqrt{2}}{2}\cdot \sqrt{\uppi}\\
+					&= \sqrt{\frac{\uppi}{2}}
+				\end{split}\]
+	\item 21-22春一(4):$Y\sim N(2,2),\E(X|Y)=Y^2$,则$\E(X)=6$
+				\[\begin{split}
+					\E(X) &= \int \E(X|Y)\cdot f_Y(y)\dif y\\
+					&= \int_{-\infty}^{+\infty}y^2\cdot f_Y(y)\dif y\\
+					&= \int_{-\infty}^{+\infty}[(y-2)^2+4y-4]f_{Y}(y)\dif y\\
+					&= \var(Y)+4\E(Y)-4=2+4\times 2-4=6
+				\end{split}\]
+	\item 21-22春一(10):对$N(\mu,\sigma^2)$的参数$\mu$进行假设检验,若在显著性水平$\alpha=0.05$下接受$H_0:\mu=\mu_0$,则在$\alpha=0.01$下,有(A)
+				\begin{enumerate}[label=(\Alph*)]
+					\item 接受$H_0$
+					\item 拒绝$H_0$
+					\item 可能接受或拒绝$H_0$
+					\item 犯第一类错误概率变大
+				\end{enumerate}
+\end{enumerate}
+
+\section{置信区间与假设检验}
+\begin{table}[H]
+	\centering
+	\renewcommand\arraystretch{2.5}
+	\begin{tabular}{c|c|c|c}\hline
+		  & 待估参数 & 其他参数 & 枢轴量 \\ \hline
+		\multirow{3}{*}{一个正态总体} & $\mu$ & $\sigma^2$已知 & $\displaystyle Z=\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}\sim N(0,1)$ \\
+		& $\mu$ & $\sigma^2$未知 & $\displaystyle T=\frac{\overline{X}-\mu}{S/\sqrt{n}}\sim t_{n-1}$ \\
+		& $\sigma^2$ & $\mu$未知 & $\displaystyle \chi^2=\frac{(n-1)S^2}{\sigma^2}\sim \chi^2_{n-1}$ \\ \hline
+		\multirow{3}{*}{两个正态总体} & $\mu_1-\mu_2$ & $\sigma_1^2,\sigma_2^2$已知 & $\displaystyle Z=\frac{\overline{X}-\overline{Y}-(\mu_1-\mu_2)}{\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}}\sim N(0,1)$ \\
+		& $\mu_1-\mu_2$ & $\sigma_1^2,\sigma_2^2=\sigma^2$未知 & $\displaystyle T=\frac{\overline{X}-\overline{Y}-(\mu_1-\mu_2)}{S_w\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}\sim t_{n_1+n_2-2}$ \\
+		& $\frac{\sigma_1^2}{\sigma_2^2}$ & $\mu_1,\mu_2$未知 & $\displaystyle F=\frac{S_1^2}{S_2^2}\sim F_{n_1-1,n_2-1}$ \\ \hline
+	\end{tabular}
+	\caption{置信区间与置信度$1-\alpha$}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\renewcommand\arraystretch{2.5}
+	\begin{tabular}{c|c|c|c}\hline
+		原假设$H_0$ & 检验统计量 & 备择假设$H_1$ & 拒绝域 \\ \hline
+		$\mu \leq \mu_0$,($\sigma^2$已知) & $\displaystyle Z=\frac{\overline{X}-\mu_0}{\sigma/\sqrt{n}}$ & $\mu>\mu_0$ & $u_{\alpha}$\\
+		$\mu \leq \mu_0$,($\sigma^2$未知) & $\displaystyle t=\frac{\overline{X}-\mu_0}{S/\sqrt{n}}$ & $\mu>\mu_0$ & $t_{n-1}(\alpha)$
+	\end{tabular}
+	\caption{假设检验显著性水平为$\alpha$}
+\end{table}
+
+\section{各种分布的数字特征}
+\begin{table}[H]
+	\centering
+	\renewcommand\arraystretch{1.2}
+	\begin{tabular}{ccccc}
+		\toprule
+		分布 & 符号 & 期望 & 方差 & 矩母函数\\
+		\midrule
+		均匀分布 & $X\sim U(a,b)$ & $\frac{a+b}{2}$ & $\frac{(b-a)^2}{\red 12}$ & $\e^{t(a+b)}$\\
+		Bernoulli(0-1,两点) &  & $p$ & $p(1-p)$ & $\e^{tp}$\\
+		二项分布 & $X\sim B(n,p)$ & $np$ & $np(1-p)$ & $\e^{tp}$\\
+		几何分布 & $X\sim Geo(p)$ & $\frac{1}{p}$ & $\frac{1-p}{p^2}$ & $\e^{tp}$\\
+		超几何分布 &  & $\frac{N_1n}{N}$ & $\frac{N_1nN_2N_3}{N^2(N-1)}$ & $\e^{tp}$\\
+		泊松分布 & $X\sim Poi(\lambda)$ & $\lambda$ & $\lambda$ & $\e^{\lambda \e^t}$\\
+		指数分布 & $X\sim Exp(\lambda )$ & $\red \frac{1}{\lambda}$ & $\red \frac{1}{\lambda^2}$ & $\e^{-\lambda \e^t}$\\
+		正态分布 & $X\sim N(\mu,\sigma ^2)$ & $\mu$ & $\sigma^2$ & $\e^{\frac{t^2}{2\sigma^2}}$\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\section{乱写区(当草稿用的)}
+\[output = \sum_{y=x+1}^{101}\sum_{x=0}^{100}\frac{\binom{100}{x}\binom{101}{y}}{2^{201}}\]
+\[\begin{aligned}
+	U_{外} &= \int_{r_2}^{r_1}\vec{E}\cdot \dif \vec{r} = \int_{r_2}^{r_1}E\dif r = \int_{r_2}^{r_1}
+\end{aligned}\]
+
+$$ \begin{aligned} S &= \sum_{i=1}^n (Z_i - \bar{Z})^2 \ &= \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma} - \frac{\bar{X} - \mu}{\sigma/\sqrt{n}}\right)^2 \ &= \frac{1}{\sigma2}\sum_{i=1}n \left(X_i - \bar{X}\right)^2 \ &= \frac{n-1}{\sigma2}S2 \ \end{aligned} $$
+	
+\[\begin{split}
+	\P(S_N=x) &= \sum_{n=1}^{\infty}\P(S_N=x,N=n)=\sum_{n=1}^{\infty}\P(S_n=x|N=n)\P(N=n)\\
+	&= \sum_{n=1}^{\infty}\frac{\e^{-x}x^{n-1}}{(n-1)!}(1-p)^{n-1}p\\
+	&= p\e^{-x}\sum_{n=1}^{\infty}\frac{[(1-p)x]^{n-1}}{(n-1)!}\\
+	&= p\e^{-x}\sum_{n=0}^{\infty}\frac{[(1-p)x]^{n}}{n!}\\
+	&= p\e^{-x}\e^{(1-p)x}=p\e^{-px}
+\end{split}\]
+
+\end{document}
