@@ -91,6 +91,8 @@ $E_{k}=E-E_0=mc^2-m_0c^2$（本式是通式，在经典力学即低速运动中�
 						\draw (3.8,0.3)node[right]{$\red\theta$};
 						\draw (3.5,-0.2)node[right]{$\theta'$};
 					\end{tikzpicture}
+					\caption{Compton散射}
+					\label{fig:Compton散射}
 				\end{figure}
 				\begin{tabular}{cccc|ccc}
 					初始 & X光子 & 能量 & $E=h\nu$ & 电子 & 能量 & $E=m_0c^2$ \\
@@ -207,6 +209,8 @@ $E_{k}=E-E_0=mc^2-m_0c^2$（本式是通式，在经典力学即低速运动中�
 						\draw [decorate](1,0)--(0,-1);
 						\draw (0.5,-0.5)node[below right]{$\var{L}$};
 					\end{tikzpicture}
+					\captionof{figure}{光的干涉}
+					\label{fig:光的干涉}
 				\end{minipage}
 				\hfill
 				\begin{minipage}{0.6\textwidth}
@@ -234,6 +238,8 @@ $E_{k}=E-E_0=mc^2-m_0c^2$（本式是通式，在经典力学即低速运动中�
 						\draw [blue](0.75,0.75)arc(-135:-80:0.25);
 						\node at (0.7,0.85){$\blue\theta$};
 					\end{tikzpicture}
+					\captionof{figure}{X射线晶格衍射}
+					\label{fig:X射线晶格衍射}
 				\end{minipage}
 				\hfill
 				\begin{minipage}{0.8\textwidth}
@@ -257,8 +263,72 @@ $E_{k}=E-E_0=mc^2-m_0c^2$（本式是通式，在经典力学即低速运动中�
 \end{enumerate}
 
 \subsection{波函数}
-微观世界单个粒子的运动状态，用波函数来描述$\Psi(\vec{r},t)$
+微观世界单个粒子的运动状态，用波函数来描述$\Psi(\vec{r},t)$，$|\Psi(\vec{r},t)|^2$表示在$\vec{r}$处，$t$时刻找到粒子的概率\\
+讨论：\begin{enumerate}[label=(\arabic*)]
+	\item 几率是量子物理概念
+				骰子：几率$\frac{1}{6}$，单次：随机；多次：规律
+	\item \begin{tabular}{ccc}
+					牛顿力学 & 电磁学 & 量子力学 \\
+					位移$\vec{r}$ & 场$\vec{E}$ & 波函数$\Psi(\vec{r},t)$ \\
+					矢量 & 矢量 & 标量 \\
+					实数 & 实数 & 复数 \\
+					粒子性 & 波动性 & 波粒二象性
+				\end{tabular}
+	\item 波函数具有有限性、归一性\\
+				归一性：$\red P=|\Psi(\vec{r},t)|^2$代表在空间中某一点$\vec{r}$处找到粒子的几率\\
+				$\int_{-\infty}^{+\infty}|\Psi(\vec{r},t)|^2\dif^3\vec{r} = 1$，全空间积分和为1\\
+				波函数$\Psi(\vec{r},t)\xrightarrow{\text{乘任意常数}}c\Psi(\vec{r},t) = \Psi'$
+				\[
+					\begin{aligned}
+						\int_{-\infty}^{+\infty}|\Psi(\vec{r},t)|^2\dif^3\vec{r} &= 1\\
+						\int_{-\infty}^{+\infty}|\Psi'(\vec{r},t)|^2\dif^3\vec{r} &= 1\\
+						\Rightarrow \int_{-\infty}^{+\infty}c^2|\Psi(\vec{r},t)|^2\dif^3\vec{r} &= 1
+					\end{aligned}
+				\]
+				因此$c$只是将归一化多了一个因子.\\
+				在$\vec{r}_1$出现的几率：$|\Phi(\vec{r}_1,t)|^2\quad c^2|\Psi(\vec{r}_1,t)|^2$\\
+				在$\vec{r}_2$出现的几率：$|\Phi(\vec{r}_2,t)|^2\quad c^2|\Psi(\vec{r}_2,t)|^2$\\
+				两点出现的几率$\frac{p_1}{p_2} = \frac{|\Psi(\vec{r}_1,t)|^2}{|\Psi(\vec{r}_2,t)|^2} = \frac{c^2|\Psi(\vec{r}_1,t)|^2}{c^2|\Psi(\vec{r}_2,t)|^2} = \frac{|\Psi'(\vec{r}_1,t)|^2}{|\Psi'(\vec{r}_2,t)|^2}$\\
+				省流：几率最重要的是{\red 相对性}\\
+				\begin{tabular}{cccc}
+					~ & 归一到1 & ~ & 归一到6000 \\
+					~ & $\uparrow$ & ~ & $\uparrow$ \\
+					1面出现 & $p_1=1/6$ & $cp_1$ & 1000 \\
+					2面出现 & $p_2=1/6$ & $cp_2$ & 1000 \\
+					$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \\
+					6面出现 & $p_6=1/6$ & $cp_6$ & 1000 \\
+					& $c$为归一化系数
+				\end{tabular}
+\end{enumerate}
 
+\subsection{态叠加原理}
+\begin{enumerate}[label=(\arabic*)]
+	\item 单子电双缝干涉\\
+				实验图基本等同 \ref{fig:光的干涉}，电子状态用波函数来描述\\
+				经过1号缝，$\Psi_1$，几率波1;经过2号缝，$\Psi_2$，几率波2；总几率波：$\Psi=\Psi_1+\Psi_2$\\
+				在屏幕上出现的几率：$P = |\Psi|^2 = |\Psi_1+\Psi_2|^2 = \mathop{|\Psi_1|^2}\limits_{\substack{\downarrow\\ \text{1号几率波}}}+\mathop{|\Psi_2|^2}^{\substack{\text{2号几率波}\\ \uparrow}}+\underset{\text{两波干涉}}{\underline{\Psi_1^{*}\Psi_2+\Psi_1\Psi_2^{*}}}$
+	\item 态叠加原理：\\
+				如果$\Psi_1$和$\Psi_2$都是体系状态，那么他们的叠加也是体系的状态，$\Psi=\Psi_1+\Psi_2$\\
+				\begin{example}
+					$|\Psi\rangle$
+				\end{example}
+\end{enumerate}
+
+\appendix
+\section{符号表和常用常数}
+\begin{table}[H]
+	\centering
+	\renewcommand\arraystretch{1.5}
+	\begin{tabular}{ccc}
+		\toprule
+		符号 & 含义 & 数值\\
+		\midrule
+		$h$ & 普朗克常数 & $\SI{6.626e-34}{J\cdot s}$\\
+		$\hbar$ & 普朗克常数除以$2\uppi$ & $\SI{1.055e-34}{J\cdot s}$\\
+		$m_e$ & 电子的静质量 & $\SI{9.109e-31}{kg}$\\
+		\bottomrule
+	\end{tabular}
+\end{table}
 \section{公式区}
 \begin{enumerate}[label=(\alph*)]
 	\item $E=h\nu,\quad p=\frac{E}{c}=\frac{h\nu}{c}=\frac{h}{\lambda}$
