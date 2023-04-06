@@ -190,7 +190,29 @@ Last Modified:\today}
 
 \section{博弈与数据压缩}
 \begin{enumerate}[label=(\arabic*)]
-	\item 
+	\item 这一章就讲了二十分钟，好像没啥内容
+\end{enumerate}
+
+\section{信道容量}
+\begin{definition}
+	离散信道是由输入字母表$\mathcal{X}$，输出字母表$\mathcal{Y}$和概率转移矩阵$p(y|x)$构成的系统。若是输入输出是马氏链，则称为无记忆的。\\
+	离散无记忆信道的信道容量定义为：$C=\max_{p(x)}I(X;Y)$
+\end{definition}
+\begin{enumerate}[label=(\arabic*)]
+	\item 信道容量（可区别的信号数目的对数值）被特征化为最大互信息
+	\item 无噪声二元信道：
+				\begin{figure}[H]
+					\centering
+					\begin{tikzpicture}[>=Stealth]
+						\draw [->](0,0)node[left]{0}--(2,0)node[right]{0};
+						\draw [->](0,1)node[left]{1}--(2,1)node[right]{1};
+						\draw (-1,0.5)node[left]{$X$} (3,0.5)node[right]{$Y$};
+					\end{tikzpicture}
+				\end{figure}
+				该信道可以毫无误差地传输任何一个比特，信道容量就是1比特。$C=\max I(X;Y)=1\bit$且在$p(x)=\left(\frac{1}{2},\frac{1}{2}\right)$时取到
+				\begin{remark}
+				注意，如果上述右边的$X\to Y$改为$0\to 1,1\to 0$也是一样的，因为根据$Y$值还是能唯一确定$X$值
+				\end{remark}
 \end{enumerate}
 
 \section{怪话表}
