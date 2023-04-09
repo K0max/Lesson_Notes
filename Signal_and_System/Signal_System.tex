@@ -19,6 +19,7 @@ Last Modified:\today}
 其次，跟上面那条类似，老师讲课的内容也可以在十分钟内看完，但是由于课本的奇妙，很难抓到有用的重点。\\
 然后，国内外、国内不同学校{\red 讲课内容不重叠}，不同专业之间需要学习的深度不同，不同教材、学校、老师使用的符号系统不同，导致我找同学借来的华科课件失效。\\
 做作业的时候发现过于困难，且本门课有期中考，故在学期1/4的时候开始写笔记，旨在把课本的内容浓缩成一份简洁易懂的笔记。目标是{\red 仅需}此份笔记，无需其他一切教材学完这门课。简而言之，就是把这份笔记直接当做{\red 自学教材}而非参考或复习资料\\
+那么笔记和课本有啥区别？我觉得电子版最大的优势就是{\red PDF可搜索}，可以高效地{\red 面向作业学习}
 
 %\tableofcontents
 
@@ -121,5 +122,47 @@ Last Modified:\today}
 \end{enumerate}
 
 \section{用微分方程或差分方程描述的系统}
+\subsection{微分方程的解}
+\begin{enumerate}[label=(\arabic*)]
+	\item 齐次解：$\sum_{i=0}^{n}a_iy^{(i)}(t) = 0$的解（即右边为零的解）\\
+				齐次解只由特征根决定：特征方程：$\sum_{i=0}^{n}a_i\lambda^i = 0$即$\lambda^n+a_{n-1}\lambda^{n-1}+\cdots +a_1\lambda+a_0 = 0$
+				\begin{enumerate}[label=(\alph*)]
+					\item 若特征根均为单根：$y_{H}(t) = \sum_{i=1}^{n}C_i \e^{-\lambda_i t}$
+					\item 若存在重根$\lambda_1$，则该$r$重根对应的解为$(C_1t^{r-1}+C_2t^{r-2}+\cdots +C_{r-1}t+C_r)\e^{-\lambda_1 t}$
+					\item 若特征根含共轭复根：$\lambda_{1,2} = \alpha \pm j\beta$，则对应的解为：$C_1\e^{-\alpha t}\cos(\beta t)+C_2\e^{-\alpha t}\sin(\beta t)$或$A\e^{-\alpha t}\cos(\beta t-\theta),A\e^{j\theta}=C_1+jC_2$
+				\end{enumerate}
+				上述$y_{H}$的角标$H$(Homogeneous)代表齐次解，接下来的$y_{P}$的角标$P$(Particular)代表特解
+	\item 特解：跟激励的函数形式有关
+				\begin{table}[H]
+					\centering
+					\renewcommand\arraystretch{1.5}
+					\begin{tabular}{c|c}
+						\toprule
+						激励（输入）信号 & 特解$y_{P}(t)$ \\
+						\midrule
+						$E(\const)$ & $P(\const)$ \\
+						$\e^{\alpha t},\red \alpha\neq\lambda_{i}$ & $P(\e^{\alpha t})$ \\
+						$\e^{\alpha t},\alpha=\lambda_{i}$，且$\lambda_i$为$\sigma_i$重根 & $\sum_{m=0}^{\sigma_i}P_{m}t^{m}\e^{\alpha t}$ \\
+						$\sum_{k=0}^{L}E_{k}t^{k}\e^{\alpha t},\red \alpha\neq\lambda_i$ & $\sum_{m=0}^{L}P_{m}^{m}\e^{\alpha t}$ \\
+						$\sum_{k=0}^{L}E_{k}t^{k}\e^{\alpha t},\alpha=\lambda_i$，且$\lambda_i$为$\sigma_i$重根 & $\sum_{m=0}^{L}P_{m}t^{m}\e^{\alpha t}$ \\
+						\bottomrule
+					\end{tabular}
+				\end{table}
+	\item 全解：$y(t) = \mathop{y_{H}(t)}\limits_{\substack{\downarrow\\ \text{齐次解} \\ \text{自由响应}}} + \mathop{y_{P}(t)}\limits_{\substack{\downarrow\\ \text{特解} \\ \text{强迫响应}}}$
+\end{enumerate}
+
+\appendix
+\section{怪话表}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ccc}
+		\toprule
+		中文 & 符号 & 说明 \\
+		\midrule
+		单位冲激函数 & $\delta(t)$ &  \\
+		单位阶跃函数 & $u(t)$ & 也有记号$\theta(t),\varepsilon(t)$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
 \end{document}
