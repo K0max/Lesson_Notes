@@ -1,6 +1,7 @@
 \documentclass{article}
 
 \input{../ypa_Preamble.tex}
+\usepackage{physics}
 \usepackage{tkz-euclide}
 
 \renewcommand\var[1]{\Delta#1}
@@ -179,7 +180,7 @@ $E_{k}=E-E_0=mc^2-m_0c^2$（本式是通式，在经典力学即低速运动中�
 				光波动性——晶格衍射\footnote{下面明明讲的是干涉，为啥这一行说是衍射呢？因为他俩一般没啥区别，详见知乎\href{https://www.zhihu.com/question/30233166}{干涉和衍射的区别}}，光的干涉：\\
 				光的干涉现象:两个电磁波相干叠加的效应.出现明暗相间的条纹\\
 				理论解释:电磁波的波动性.
-				\[\underbrace{E}_{\text{电磁波}} = \underbrace{A}_{\text{振幅}}\cos (\omega t-kr+\phi_0)\]
+				\[\belownote{E}{\downarrow \\ \text{电磁波}} = \belownote{A}{\downarrow \\ \text{振幅}}\cos (\omega t-kr+\phi_0)\]
 				圆频率$\omega=\frac{2\uppi}{T}$(时间上的周期性),波矢$k=\frac{2\uppi}{\lambda}$(空间上的周期性)\\
 				\begin{itemize}
 					\item （1号波）$E_1 = A_1\cos (\omega t-kr_1+\phi_0)$
@@ -187,7 +188,7 @@ $E_{k}=E-E_0=mc^2-m_0c^2$（本式是通式，在经典力学即低速运动中�
 				\end{itemize}
 				在$P$点两个波叠加:$E = E_1+E_2 = A_1\cos (\omega t-kr_1+\phi_0)+A_2\cos (\omega t-kr_2+\phi_0)$\\
 				场强:$I = A_1^2+A_2^2+2A_1A_2\cos (\var \phi)$,$\var \phi=\phi-\phi_2 = -k(r_1-r_2)$
-				则有\[I = A_1^2+A_2^2+2A_1A_2\cos (\underbrace{k\var L}_{\text{光程差}})\]
+				则有\[I = A_1^2+A_2^2+2A_1A_2\cos \ubelownote{(k\var L)}{\text{光程差}}\]
 				当$k\var L = 2n\uppi$时,$I_{\max} = A_1^2+A_2^2+2A_1A_2$,当$k\var L=(2n+1)\uppi$时,$I_{\min} = A_1^2+A_2^2-2A_1A_2$\\
 				由$\max:k=\frac{2\uppi}{\lambda}$,有$\frac{2\uppi}{\lambda}\var L = 2n\uppi \Rightarrow \var L=n\lambda$,\quad $\min:\var L = \left(n+\frac{1}{2}\right)\lambda$
 				\begin{minipage}{0.3\textwidth}
@@ -310,8 +311,97 @@ $E_{k}=E-E_0=mc^2-m_0c^2$（本式是通式，在经典力学即低速运动中�
 	\item 态叠加原理：\\
 				如果$\Psi_1$和$\Psi_2$都是体系状态，那么他们的叠加也是体系的状态，$\Psi=\Psi_1+\Psi_2$\\
 				\begin{example}
-					$|\Psi\rangle$
+					$\ket{\Psi} = \belownote{\ket{\uparrow}}{\downarrow \\ \text{自旋向上}}+\belownote{\ket{\downarrow}}{\downarrow \\ \text{自旋向下}}$\\
+					$\ket{\Psi} = \ket{1}+\ket{0}$ \quad $\ket{\Psi} = \ket{\text{living cat}}+\ket{\text{dead cat}}$\\
+					态叠加原理：$\Psi = \Psi_1+\Psi_2+\cdots +\Psi_n = \sum^{n}\belownote{c_n}{\downarrow \\ \text{叠加系数}}\Psi_n\longrightarrow \text{每个成分}$
 				\end{example}
+\end{enumerate}
+
+\subsection{力学量算符和薛定谔方程}
+\begin{enumerate}[label=(\arabic*)]
+	\item 力学量算符：基本物理量；薛定谔方程：基本规律。$E=h\nu \quad p=\frac{h}{\nu}$
+	\item 波函数：\\
+				最简单的波：平面波：$\Psi = \e^{\i(\vec{k}\cdot\vec{r})-\omega t}\quad \text{(波矢)}\vec{k}=\frac{2\uppi}{\lambda},\text{(圆频率)}\omega=\frac{2\uppi}{T}$\\
+				$\begin{cases}
+					E = h\nu =\hbar \omega \\
+					p = \frac{h}{\nu} = \hbar \vec{k}
+				\end{cases}\Rightarrow \Psi = \e^{\frac{\i}{\hbar}(Et-\vec{p}\cdot \vec{r})} \Rightarrow \Psi(\vec{r},t) = A\e^{\frac{\i}{\hbar}(\vec{p}\cdot\vec{r}-Et)}$
+	\item \begin{enumerate}[label=(\alph*)]
+					\item 波函数随时间变化：\\
+								$\pdv{\Psi}{t} = \pdv{t}[\e^{\frac{\i}{\hbar}(Et-\vec{p}\cdot\vec{r})}] = \e^{\frac{\i}{\hbar}(Et-\vec{p}\cdot\vec{r})}\cdot \frac{\i}{\hbar}E$\\
+								$\pdv{\Psi}{t} = \Psi \frac{\i}{\hbar}E = E\Psi = i\hbar\pdv{\Psi}{t}$（能量作用在波函数上，效果等于一个微分算符$i\hbar\pdv{t}$）
+					\item 波函数随空间的变化：\\
+								$\pdv{\Psi}{x} = \pdv{x}[\e^{\frac{\i}{\hbar}(Et-\vec{P}\cdot\vec{r})}] = \pdv{x}[A\e^{\frac{\i}{\hbar}(Et-(p_{x}x+p_{y}y+p_{z}z)}] = \e^{\frac{\i}{\hbar}(Et-\vec{p}\cdot\vec{r})}(-\frac{\i}{\hbar}p_{x})$\\
+								$\Rightarrow \pdv{\Psi}{x} = \Psi(+\frac{\i}{\hbar}\cdot p_{x}) \Rightarrow p_{x}\cdot \Psi = -\i \hbar\pdv{\Psi}{x}$（动量$p_{x}$作用在波函数上，等效于一个微分算符$-\i \hbar\pdv{\Psi}{x}$）\\
+								同理考虑$y,z$方向上的演化：$-\i \hbar\pdv{\Psi}{y} = p_{y}\Psi \quad -\i \hbar\pdv{\Psi}{z} = p_{z}\Psi \Rightarrow$\\
+								$\vec{p}\cdot\Psi = -\i \hbar\nabla\Psi$（动量$p$作用在波函数上，等效于一个微分算符$-\i \hbar\nabla$）
+				\end{enumerate}\
+	\item 从波函数随时间和空间的演化对比牛顿方程\
+				\[\begin{cases}
+					E\Psi = i\hbar\pdv{\Psi}{t} \\
+					\vec{p}\Psi = -\i\hbar\nabla\Psi
+				\end{cases}\quad \vec{F} = m\dv[2]{\vec{r}}{t}\]
+				将这些物理量（能量、动量）称之为力学量算符
+	\item 讨论波函数随时空的变化：\\
+				时间：\inlineequation[time]{E\Psi = \i\hbar\pdv{\Psi}{t}}\\
+				空间：\inlineequation[space]{\vec{p}\Psi = -\i\hbar\nabla\Psi}\\
+				对空间做两次微分：\inlineequation[two-time-pdv]{(\i\hbar\nabla)^2 \Psi = \vec{p}^2 \Psi \Rightarrow \nabla^{2}=\frac{-p^2}{\hbar^2}\Psi \Rightarrow \vec{p}^2\Psi=-\hbar^2\nabla^2\Psi}\\
+				考虑一个非相对论情况：\inlineequation[non-relativity]{E=\frac{\vec{p}^2}{2m}}
+	\item 薛定谔方程：\begin{enumerate}[label=(\alph*)]
+					\item \eqref{non-relativity} $\Rightarrow E\Psi = \frac{\vec{p}^2}{\Psi}$
+					\item \eqref{time} $\Rightarrow \i\hbar\pdv{\Psi}{t} = \frac{\vec{p}^2}{2m}\Psi$
+					\item \eqref{two-time-pdv} $\Rightarrow \i\hbar\nabla^2\Psi = -\frac{\hbar^2\nabla^2}{2m}\Psi$
+				\end{enumerate}
+				$(\text{随时间})\i\hbar\pdv{\Psi}{t} = -\frac{\hbar^2\nabla^2}{2m}\Psi(\text{随空间})$：自由粒子薛定谔方程\\
+				一般情况下，粒子处在一个势场中：\\
+				\inlineequation[modified-non-relativity]{E = \ubelownote{\frac{\vec{p}^2}{2m}}{动能}+\dabovenote{U}{势能}}（改写\eqref{non-relativity}）\\
+				由\eqref{modified-non-relativity} $E\Psi = (\frac{\vec{p}^2}{2m}+U)\Psi$\\
+				由\eqref{time} $i\hbar\pdv{\Psi}{t} = (\frac{\vec{p}^2}{2m}+U)\Psi$\\
+				由\eqref{two-time-pdv} $i\hbar\pdv{\Psi}{t} = [-\frac{\hbar^2\nabla^2}{2m}+U]\Psi$\\
+				$(\text{随时间})\i\hbar\pdv{\Psi}{t} = [\ubelownote{-\frac{\hbar^2\nabla^2}{2m}}{随空间}+\ubelownote{U}{外势场}]\Psi$：薛定谔方程
+	\item 讨论：\begin{enumerate}[label=(\alph*)]
+					\item 先考虑波函数随时间变化、空间变化$\longrightarrow$ 综合在一起 $\longrightarrow$ 薛定谔方程
+					\item 薛定谔方程是一个波动方程（偏微分方程），对比：\\
+								Maxwell方程：波动方程、偏微分方程；牛顿方程：常微分方程
+					\item $\i\hbar\pdv{\Psi}{t} = \left[-\frac{\hbar^2}{2m}\nabla^2+U\right]\Psi$\\
+								波函数$\Psi$满足线性叠加原理：$\Psi = \Psi_1+\Psi_2+\cdots+\Psi_n$\\
+								波函数处在$n$维线性空间——Hilbert空间\\
+								引入哈密顿量$H = \ubelownote{-\frac{\hbar^2}{2m}\nabla^2}{动能项}+\ubelownote{U}{势能项}$\\
+								\[\dbelownote{\hat{H}}{算符} = -\frac{\hbar^2}{2m}\nabla^2+U\]
+								$\i\hbar\pdv{\Psi}{t} = \hat{H}\Psi$：Hilbert空间上的算符方程
+				\end{enumerate}
+\end{enumerate}
+\subsection{小结}
+\begin{enumerate}[label=(\arabic*)]
+	\item \begin{tabular}{rcl}
+							~ & 从平面波出发 & $\Psi = \e^{\frac{\i}{\hbar}(\vec{k}\cdot\vec{r})-Et}$ \\
+							~ & $\downarrow$ & \\
+				（时间） & 波函数随时间变化 & $E\Psi = \i\hbar\pdv{\Psi}{t}$ \\
+							~ & $\downarrow$ & \\
+				（空间） & 波函数随空间变化 & $\vec{p}\Psi = -\i\hbar\nabla\Psi$ \\
+							~ & $\downarrow$ & \\
+				（时空） & 波函数随空间两次微分 & $\vec{p}^2\Psi = -\hbar^2\nabla^2\Psi$ \\
+							~ & $\downarrow$ & \\
+				（粒子） & 能动量关系 & $E = \frac{p^2}{2m}+U$ \\
+							~ & $\downarrow$ & \\
+				（波动方程） & $\i\hbar\pdv{\Psi}{t} = \left[-\frac{\hbar^2\nabla^2}{2m}+U\right]\Psi$ & \\
+				（粒子性） & $E\Psi = \left[\frac{p^2}{2m}+U\right]\Psi$
+				\end{tabular}
+	\item 爱因斯坦广义相对论方程：$\ubelownote{R_{uv}}{时间空间坐标}-\frac{1}{2}g_{uv}R = k\dbelownote{T_{uv}}{能量（质量）}$
+	\item 量子物理中物理量：\begin{tabular}{cc}
+					能量 & $E\rightarrow \i\hbar\pdv{t}$ \\
+					动量 & $p\rightarrow -\i\hbar\nabla$ \\
+					动量分量 & $(p_{x},p_{y},p_{z})\rightarrow -\i\hbar\left(\pdv{x},\pdv{y},\pdv{z}\right)$
+				\end{tabular}\\
+				量物中一个物理量$F$通常是一个算符$\vec{F}$
+	\item 薛定谔方程是量子物理的基本方程\\
+				波动方程：$\nabla^2 = \pdv[2]{x}+ \pdv[2]{y}+ \pdv[2]{z}$（随时空变化的偏微分方程，类似Maxwell方程）\\
+				粒子性：$E = \frac{p^2}{2m}+U$（类似牛顿运动方程）\\
+				薛定谔方程体现波粒二象性
+	\item $\i\hbar\pdv{\Psi}{t} = \left[-\frac{\hbar^2\nabla^2}{2m}+U\right]\Psi$\\
+				$-\frac{\hbar^2\nabla^2}{2m}+U = E = \hat{H}$\quad $\red \i\hbar\pdv{\Psi}{t} = \hat{H}\Psi$
+	\item 非相对论：$E = \frac{p^2}{2m}+U$（薛定谔方程）\\
+				相对论：$E = \sqrt{p^2c^2+m^2c^4}$（狄拉克方程）
 \end{enumerate}
 
 \appendix
