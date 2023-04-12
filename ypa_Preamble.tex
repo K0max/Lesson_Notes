@@ -46,6 +46,8 @@
 \newcommand{\const}{\mathrm{const}}
 \newcommand{\defeq}{\xlongequal{\mathrm{def}}}%定义符号,也可以直接用amssymb的\triangleq
 
+\renewcommand\i{\mathrm{i}}%i的定义
+
 \newcommand*{\dif}{\mathop{}\!\mathrm{d}}
 \DeclareMathOperator{\e}{e}
 \DeclareMathOperator{\bit}{bit}
@@ -54,6 +56,8 @@
 \newcommand\ceil[1]{\left\lceil#1\right\rceil}
 \newcommand\floor[1]{\left\lfloor#1\right\rfloor}
 \newcommand\mangle[1]{\langle#1\rangle}
+%\newcommand\Re[1]{\mathrm{Re}\left(#1\right)}
+%\newcommand\Im[1]{\mathrm{Im}\left(#1\right)}
 \renewcommand{\oiint}{\varoiint}
 \newcommand{\red}{\color{red}}
 \newcommand{\blue}{\color{blue}}
@@ -72,3 +76,30 @@
 
 \newcommand\belownote[2]{\mathop{#1}\limits_{\substack{#2}}}
 \newcommand\abovenote[2]{\mathop{#1}\limits^{\substack{#2}}}
+\newcommand\dbelownote[2]{\mathop{#1}\limits_{\substack{\downarrow \\ \text{#2}}}}
+\newcommand\ubelownote[2]{\mathop{#1}\limits_{\substack{\uparrow \\ \text{#2}}}}
+\newcommand\dabovenote[2]{\mathop{#1}\limits^{\substack{\downarrow \\ \text{#2}}}}
+\newcommand\uabovenote[2]{\mathop{#1}\limits^{\substack{\uparrow \\ \text{#2}}}}
+
+% 行内公式可编号，命令为\inlineequation[标签]{公式}
+\makeatletter
+\newcommand*{\inlineequation}[2][]{%
+  \begingroup
+    % Put \refstepcounter at the beginning, because
+    % package `hyperref' sets the anchor here.
+    \refstepcounter{equation}%
+    \ifx\\#1\\%
+    \else
+      \label{#1}%
+    \fi
+    % prevent line breaks inside equation
+    \relpenalty=10000 %
+    \binoppenalty=10000 %
+    \ensuremath{%
+      % \displaystyle % larger fractions, ...
+      #2%
+    }%
+    ~\@eqnnum
+  \endgroup
+}
+\makeatother
