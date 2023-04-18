@@ -1,6 +1,7 @@
 \documentclass{article}
 
 \input{../ypa_Preamble.tex}
+\setlength\parindent{0pt}
 \everymath{\displaystyle}
 
 \title{\textsc{Signal and System Notes}}
@@ -8,18 +9,24 @@
 \date{2022.12.28\\%
 Last Modified:\today}
 
-\newcommand{\Ev}{\mathrm{Ev}}
-\newcommand{\Od}{\mathrm{Od}}
+\newcommand\Ev[1]{\mathrm{Ev}\left[#1\right]}
+\newcommand\Od[1]{\mathrm{Od}\left[#1\right]}
+\newcommand\Sa[1]{\mathrm{Sa}\left(#1\right)}
+\newcommand\zi{\mathrm{zi}}
+\newcommand\zs{\mathrm{zs}}
+\renewcommand\var[1]{\Delta{#1}}
+\newcommand\inv{\mathrm{inv}}
 
 \begin{document}
 \maketitle
 \section{前言}
-\noindent 我为什么写这份笔记。众所周知，笔记是写给自己看的，当我学这门课的时候，我发现几个很严重的问题：\\
+我为什么写这份笔记。众所周知，笔记是写给自己看的，当我学这门课的时候，我发现几个很严重的问题：\\
 首先，课本写的非常地厚，不出所料是一堆{\red 屎山}。每个章节有用的东西完全可以浓缩成几页纸几分钟看完。\\
 其次，跟上面那条类似，老师讲课的内容也可以在十分钟内看完，但是由于课本的奇妙，很难抓到有用的重点。\\
 然后，国内外、国内不同学校{\red 讲课内容不重叠}，不同专业之间需要学习的深度不同，不同教材、学校、老师使用的符号系统不同，导致我找同学借来的华科课件失效。\\
 做作业的时候发现过于困难，且本门课有期中考，故在学期1/4的时候开始写笔记，旨在把课本的内容浓缩成一份简洁易懂的笔记。目标是{\red 仅需}此份笔记，无需其他一切教材学完这门课。简而言之，就是把这份笔记直接当做{\red 自学教材}而非参考或复习资料\\
-那么笔记和课本有啥区别？我觉得电子版最大的优势就是{\red PDF可搜索}，可以高效地{\red 面向作业学习}
+那么笔记和课本有啥区别？我觉得电子版最大的优势就是{\red PDF可搜索}，可以高效地{\red 面向作业学习}\\
+最后的怪话表说白了就是符号表，涵盖本书的符号体系和其他教材的符号体系，防止各位听外校网课时一头雾水。
 
 %\tableofcontents
 
@@ -33,7 +40,7 @@ Last Modified:\today}
 	\item 单位阶跃信号与单位冲激信号的关系：$\delta(t)=\frac{\dif }{\dif t}u(t),\quad u(t)=\int \delta(t)\dif t$
 	\item 信号的周期性：$\tilde{x}(t)=\tilde{x}(t\pm T),T\in\mathbb{R}$或$\tilde{x}[n]=\tilde{x}[n\pm N],N\in\mathbb{Z}$
 	\item 信号的奇偶性：$x(t)=x_e(t)+x_o(t)$\\
-				$x_e(t)=\Ev[x(t)]=\frac{x(t)+x(-t)}{2},x_o(t)=\Od[x(t)]=\frac{x(t)-x(-t)}{2}$
+				$x_e(t)=\Ev{x(t)}=\frac{x(t)+x(-t)}{2},x_o(t)=\Od{x(t)}=\frac{x(t)-x(-t)}{2}$
 	\item 信号的分类：能量信号和功率信号，分类标准：能量$E_x$和功率$P_x$\\
 				$E_x=\int_{-\infty}^{+\infty}|x(t)|^2\dif t\text{或}E_x=\sum_{-\infty}^{\infty}|x[n]|^2$\\
 				$P_x=\lim_{T \to \infty}\frac{1}{2T}\int_{-T}^{T}|x(t)|^2\dif t=\lim_{N \to \infty}\frac{1}{2N+1}\sum_{n=-N}^{N}|x[n]|^2$\\
@@ -43,7 +50,7 @@ Last Modified:\today}
 					\item 若$E_x\to\infty,P_x\to\infty$，则称为非能非功信号
 				\end{enumerate}
 				为啥没有别的情况？用数学计算易证其他情况不存在
-	\item 互相关函数与自相关函数：分能量信号和功率信号\\
+	\item 互相关函数与自相关函数：分能量信号和功率信号
 				\begin{enumerate}
 					\item 能量信号：\\
 								互相关函数：$R_{xv}(\tau)=\int_{-\infty}^{\infty}x(t+\tau)v^*(t)\dif t \text{或} R_{xv}[m]=\sum_{n=-\infty}^{\infty}x[n+m]v^*[n]$
@@ -75,6 +82,12 @@ Last Modified:\today}
 					\item 可逆性：根据系统的输出信号可以唯一确定其输入信号，则称为可逆；否则称为不可逆。简单点说就是一一映射
 					\item 时不变性：若输入信号有一个时移，在输出信号有相同的时移，则称为时不变；否则称为时变。课本描述如下：\\
 								对$x(t)\to y(t)$，在任何输入信号下，对任何$t_0$都分别有$x(t-t_0)\to y(t-t_0)$，则该系统是时不变的。
+								\begin{example}
+									$y[n] = (\frac{1}{2})^n\sum_{k=-\infty}^{n}2^kx[k]$\\
+									先时移后输入：$x[n]\xrightarrow{n-n_0}x[n-n_0]\longrightarrow (\frac{1}{2})^n\sum_{k=-\infty}^{n}2^kx[k-n_0]\xrightarrow{i=k-n_0}$\\
+									$(\frac{1}{2})^n\sum_{i=-\infty}^{n-n_0}2^{i+n_0}x[i] = (\frac{1}{2})^{n-n_0}\sum_{i=-\infty}^{n-n_0}2^ix[i]$\\
+									先输入后时移：$x[n]\longrightarrow (\frac{1}{2})\sum_{k=-\infty}^{n}2^kx[k]\xrightarrow{n-n_0}(\frac{1}{2})^{n-n_0}\sum_{k=-\infty}^{n-n_0}2^kx[k]$
+								\end{example}
 				\end{enumerate}
 				\begin{remark}
 					所有无记忆系统（仅与当前有关）必为因果（与未来无关），但反之未必成立。上述性质理解起来要用信号与系统的思维，输入输出是两串数列，数列的下标即为时间。上述描述时为了省事，仅写出连续信号的情况，离散同理
@@ -96,8 +109,9 @@ Last Modified:\today}
 					\item 求导：$[x(t)*h(t)]'=x'(t)*h(t)=x(t)*h'(t)$利用这个性质，有推论$x(t)*h(t)=x'(t)*\int h(t)\dif t$\\
 								$\frac{\dif^k}{\dif t^k}[x(t)*h(t)]=x(t)*\frac{\dif^k}{\dif t^k}h(t)=\frac{\dif^k}{\dif t^k}x(t)*h(t)$
 					\item 积分：$\int_{-\infty}^{t}[x(\tau)*h(\tau)]\dif\tau=x(t)*\left[\int_{-\infty}^{t}h(\tau)\dif\tau\right]=\left[\int_{-\infty}^{t}x(\tau)\dif\tau\right]*h(t)$
-					\item 冲激函数的卷积：$x(t)*\delta(t)=x(t)$（别卷了，卷了也是白卷）\\
-								延时：$x(t)*\delta(t-t_0)=x(t-t_0)$
+					\item 冲激函数的卷积：$x(t)*\delta(t)=x(t)$（{\red 别卷了，卷了也是白卷}）\\
+								延时：$x(t)*\delta(t-t_0)=x(t-t_0)$\\
+								导数：$\delta'(t)*x(t) = [\delta(t)*x(t)]' = x'(t)$
 					\item 单位冲激响应的延时：对$y(t)=x(t)*h(t)$有$x(t-t_0)*h(t)=x(t)*h(t-t_0)=y(t-t_0)$，此处$h(t)$是单位冲激响应
 				\end{enumerate}
 				\begin{remark}
@@ -108,6 +122,25 @@ Last Modified:\today}
 					\item $u[n]-2u[n-1]+3u[n-2]=\delta[n]-\delta[n-1]+2\delta[n-2]$（因为$n=0,1,2$的时候才不为零，可以列举得到）
 					\item $x*h=x'*\int h\dif t$
 				\end{enumerate}
+	\item 基本信号的卷积表：
+				\begin{table}[H]
+					\begin{tabular}{ccc|ccc}
+						\toprule
+						\multicolumn{3}{c}{连续时间卷积积分} & \multicolumn{3}{c}{离散时间卷积和} \\
+						\midrule
+						$x(t)$ & $h(t)$ & $x(t)*h(t)$ & $x[n]$ & $h[n]$ & $x[n]*h[n]$ \\
+						$x(t)$ & $\delta(t)$ & $x(t)$ & $x[n]$ & $\delta[n]$ & $x[n]$ \\
+						$x(t)$ & $u(t)$ & $\int_{-\infty}^{t}x(\tau)\dif\tau$ & $x[n]$ & $u[n]$ & $\sum_{k=-\infty}^{n}x[k]$ \\
+						$x(t)$ & $\delta'(t)$ & $x'(t)$ & $x[n]$ & $\var{\delta[n]}$ & $x[n]-x[n-1]$ \\
+						$u(t)$ & $u(t)$ & $tu(t)$ & $u[n]$ & $u[n]$ & $(n+1)u[n]$ \\
+						$\e^{-at}u(t)$ & $u(t)$ & $\frac{1-\e^{-at}}{a}u(t)$ & $a^{n}u[n]$ & $u[n]$ & $\frac{1-a^{n+1}}{1-a}u[n]$ \\
+						$\sin(\omega t)u(t)$ & $u(t)$ & $\frac{1-\cos (\omega t)}{\omega}u(t)$ & $\sin(\Omega n)u[n]$ & $u[n]$ & ~ \\
+						$\cos(\omega t)u(t)$ & $u(t)$ & $\frac{\sin(\omega t)}{\omega}u(t)$ & $\cos(\Omega n)u[n]$ & $u[n]$ & ~ \\
+						$\e^{-at}u(t)$ & $\e^{-at}u(t)$ & $t\e^{-at}u(t)$ & $a^{n}u[n]$ & $a^{n}u[n]$ & $(n+1)a^{n}u[n]$ \\
+						$\e^{-at}u(t)$ & $\e^{-bt}u(t)$ & $\frac{\e^{-at}-\e^{-bt}}{b-a}u(t)$ & $a^{n}u[n]$ & $b^{n}u[n]$ & $\frac{b^{n+1}-a^{n+1}}{b-a}u[n]$ \\
+						\bottomrule
+					\end{tabular}
+				\end{table}
 	\item 相关函数：在第二章定义过，能量信号的互相关函数为：\\
 				$R_{xg}(t) = \int_{-\infty}^{+\infty}x(\tau)g^*(\tau-t)\dif\tau = x(t)*g^*(-t)$
 	\item 周期卷积：$\tilde{y}(t)=\tilde{x}_1(t)\circledast\tilde{x}_2(t)=\int_{\mangle{T}}\tilde{x}_1(\tau)\tilde{x}_2(t-\tau)\dif\tau$或\\
@@ -118,20 +151,39 @@ Last Modified:\today}
 					\item 记忆性：无记忆性的LTI必须满足：$h(t)=0,(t\neq 0)$
 					\item 因果性：LTI的因果性判据：$h(t)=0,(t<0)$
 					\item 稳定性：充要条件：$\int_{-\infty}^{\infty}|h(t)|\dif t<\infty$
+					\item 可逆性：对可逆的LTI系统有：$h_{\inv}(t)*h(t) = \delta(t)$
+								\begin{example}
+									$y(t) = \e^{-2t}\int_{-\infty}^{t}(\e^{\tau})^2x(\tau)\dif \Rightarrow h(t)=\e^{-2t}\int_{-\infty}^{t}\e^{2\tau}\delta(\tau)\dif\tau = \e^{2t}\cdot\e^{2\cdot 0}\int_{0}^{0}\delta(\tau)\dif t = \e^{-2t}u(t)$\\
+									求其逆系统$h_{\inv}(t)*h(t) = \delta(t)$，对$h(t)$求导有$h'(t) = \e^{-2t}\delta(t) -2\e^{-2t}u(t) = \delta(t)-2\e^{-2t}u(t) = \delta(t)-2h(t)\Longrightarrow h'(t)+2h(t) = \delta(t)$\\
+									$\Longrightarrow h(t)*(\delta'(t)+2\delta(t)) = \delta(t)\Longrightarrow h_{\inv}(t) = \delta'(t)+2\delta(t)$
+								\end{example}
 				\end{enumerate}
 \end{enumerate}
 
 \section{用微分方程或差分方程描述的系统}
-\subsection{微分方程的解}
+对于一个微（差）分方程，有两种解法。一是数学上的经典解：齐次解$y_{H}$和特解$y_{P}$。二是信号与系统上的零输入响应$y_{\zi}$和零状态响应$y_{\zs}$\\
+{\red 杜宝（助教）建议}用零输入和零状态搞，别老惦记你那特解
+\begin{remark}
+	这两种解法分别有结构：全解=齐次解+特解；完全响应=零输入响应+零状态响应。他们的关系为全解=完全响应，即只是两个解法的不同名字。\\
+	齐次解=零输入响应+零状态响应的一部分；特解=零输入响应的一部分\\
+	齐次解又叫自由响应或固有响应，特解又叫强迫响应。\\
+	更详细的对比请见\href{https://zhuanlan.zhihu.com/p/415103392}{知乎}
+\end{remark}
+\subsection{齐次解和特解的解法}
 \begin{enumerate}[label=(\arabic*)]
-	\item 齐次解：$\sum_{i=0}^{n}a_iy^{(i)}(t) = 0$的解（即右边为零的解）\\
-				齐次解只由特征根决定：特征方程：$\sum_{i=0}^{n}a_i\lambda^i = 0$即$\lambda^n+a_{n-1}\lambda^{n-1}+\cdots +a_1\lambda+a_0 = 0$
-				\begin{enumerate}[label=(\alph*)]
-					\item 若特征根均为单根：$y_{H}(t) = \sum_{i=1}^{n}C_i \e^{-\lambda_i t}$
-					\item 若存在重根$\lambda_1$，则该$r$重根对应的解为$(C_1t^{r-1}+C_2t^{r-2}+\cdots +C_{r-1}t+C_r)\e^{-\lambda_1 t}$
-					\item 若特征根含共轭复根：$\lambda_{1,2} = \alpha \pm j\beta$，则对应的解为：$C_1\e^{-\alpha t}\cos(\beta t)+C_2\e^{-\alpha t}\sin(\beta t)$或$A\e^{-\alpha t}\cos(\beta t-\theta),A\e^{j\theta}=C_1+jC_2$
-				\end{enumerate}
-				上述$y_{H}$的角标$H$(Homogeneous)代表齐次解，接下来的$y_{P}$的角标$P$(Particular)代表特解
+	\item 齐次解：$\sum_{i=0}^{N}a_iy^{(i)}(t) = 0$的解（即右边为零的解）\\
+			齐次解只由特征根决定：特征方程：$\sum_{i=0}^{n}a_i\lambda^i = 0$即$\lambda^n+a_{n-1}\lambda^{n-1}+\cdots +a_1\lambda+a_0 = 0$
+			\begin{enumerate}[label=(\alph*)]
+				\item 若特征根均为单根：$y_{H}(t) = \sum_{i=1}^{n}A_i \e^{-\lambda_i t}$
+				\item 若存在重根$\lambda_1$，则该$r$重根对应的解为$(A_1t^{r-1}+A_2t^{r-2}+\cdots +A_{r-1}t+A_r)\e^{-\lambda_1 t}$
+				\item 若特征根含共轭复根：$\lambda_{1,2} = \alpha \pm j\beta$，则对应的解为：$C_1\e^{-\alpha t}\cos(\beta t)+C_2\e^{-\alpha t}\sin(\beta t)$或$A\e^{-\alpha t}\cos(\beta t-\theta),A\e^{j\theta}=C_1+jC_2$
+			\end{enumerate}
+			上述$y_{H}$的角标$H$(Homogeneous)代表齐次解，接下来的$y_{P}$的角标$P$(Particular)代表特解\\
+			然后再特地提一下差分方程跟微分方程不同的地方：\\
+			差分方程$\sum_{k=0}^{n}b_{k}y[n-k] = 0$，则特征根方程为$\sum_{k=0}^{n}b_{k}\lambda^{n-k} = 0$。且最后的齐次解为$y_{H}[n] = \sum_{i=1}^{n}B_i\lambda_i^{n}$。\\
+			举例为$y[n]+2[n-1]-3y[n-2] = 0$，特征方程为$\lambda^2+2\lambda-3 = 0\Rightarrow \lambda=-3,1$，$y_{H}[n] = B_i\lambda_i^{n}$。\\
+			如果是$y''(t)+2y'(t)-3 = 0$，那也是$\lambda^2+2\lambda-3 = 0$\\
+			一般来说，连续时间系统的求导$y'(t)$基本等同于离散时间系统的时延$y[n-1]$，但是在特征根里面刚好不是
 	\item 特解：跟激励的函数形式有关
 				\begin{table}[H]
 					\centering
@@ -149,6 +201,145 @@ Last Modified:\today}
 					\end{tabular}
 				\end{table}
 	\item 全解：$y(t) = \mathop{y_{H}(t)}\limits_{\substack{\downarrow\\ \text{齐次解} \\ \text{自由响应}}} + \mathop{y_{P}(t)}\limits_{\substack{\downarrow\\ \text{特解} \\ \text{强迫响应}}}$
+	\item {\red 注：}对差分方程的齐次解系数，课本上标注为$B_{i}$以示和微分方程齐次解的系数$A_{i}$不同。系数$A_{i}$和$B_{i}$都可以为复数
+\end{enumerate}
+
+\subsection{零输入响应和零状态响应的解法}
+\begin{enumerate}[label=(\arabic*)]
+	\item $y(t) = y_{\zi}(t)+y_{\zs}(t)$，其中角标$\zi$(Zero Input)代表零输入响应，角标$\zs$(Zero State)代表零状态响应。为了表示区别，我将zi和zs写成了正体，并且在zi和$i$之间加了逗号
+	\item 零输入响应：$y_{\zi}(t) = \sum_{i=1}^{n}A_{\zi,i}\e^{-\lambda_i t}$，和齐次解一样是解等式左边的特征方程。\\
+				系数为$A_{\zi,i}$意为第$i$个特征根对应的零输入响应的系数，同样，课本上对差分方程系数表示为$B_{\zi,i}$
+				\begin{remark}
+					那问题来了，这和齐次解有啥区别。见课本$\mathbf{P}_{122}$的4.5节上方最后一段。摘录一下：虽然自由响应和零输入响应都满足齐次方程的解，但是它们的{\red 系数}却不相同，且代表不同的物理含义。$A_{\zi,i},B_{\zi,i}$仅分别由{\red 起始}条件决定，而$A_{i}$由{\red 起始}条件和输入信号共同决定：在{\red 起始}条件为零的情况下，零输入响应为0，然而自由响应（齐次解）却不等于0，只有输入信号也为0时，自由响应才为0。
+				\end{remark}
+	\item {\red 起始}条件与{\red 初始}条件的区别：\\
+				{\red 起始}条件：$y^{(k)}(0_{\red-}) = c_k\quad (k=0,1,\cdots ,N-1)$\\
+				{\red 初始}条件：$y^{(k)}(0^{\red+}) = c_k\quad (k=0,1,\cdots ,N-1)$\\
+				诶诶，怎么看不出哪里有区别？哦，原来是0的{\red 角标}不同。由于$y^{(k)}(t)$在$t=0$可能有跃变或者冲激，所以这吊玩意可能不连续，即$y^{(k)}(0^{+})\neq y^{(k)}(0_{-})$\\
+				起始条件和初始条件的转换：\\
+				对于离散时间系统（差分方程），使用课本$\mathbf{P}_{117}$的4.3.3节的递推算法求得。对连续时间系统（微分方程）就有亿点麻烦了，需要用具体的物理系统的物理原理。零输入和零状态法就是为了{\red 一定程度上规避}起始条件到初始条件的转换提出来的。
+	\item 上面已经提到$y(t) = y_{\zi}(t)+y_{\zs}(t) = \sum_{i=1}^{N}A_{\zi,i}\e^{\lambda_i t}+x(t)*h(t)\quad (t\geq 0)$，所以接下来直接求$y_{\zs}(t)$。为了求得零状态响应，我们需要一个类似于Lemma的东西：单位冲激响应
+\end{enumerate}
+\subsubsection{微分方程表征的LTI系统的单位冲激响应的求法}
+\begin{enumerate}[label=(\arabic*)]
+	\item 两个因果LTI系统级联的方法：\\
+				对原式$\sum_{k=0}^{N}a_k y^{(k)}(t) = \sum_{k=0}^{M}b_kx^{(k)}(t)$，要求单位冲激响应，那直接$x(t)=\delta(t),y(t)=h(t)$，于是有
+				\[\sum_{k=0}^{N}a_k h^{(k)}(t) = \sum_{k=0}^{M}b_k\delta^{(k)}(t)\]
+				拆分成$h(t)=h_1(t)*h_2(t)$，其中$h_1(t) = \sum_{k=0}^{M}b_{k}\delta ^{(k)}(t)$，即上式右边。
+				$h_2(t)$是$\begin{cases}\sum_{k=0}^{N}a_{k}h_2^{(k)}(t) = \delta(t) \\ \text{{\red 起始}条件：}h_2^{(k)}(0_{-}) = 0 \\ k={\red 0},1,\cdots {\red N-1}\end{cases}$的解，且解为：（下式即为{\red 初始}条件）\\
+				\inlineequation[微分初始]{h_2^{(N-1)}(0^{+}) = \frac{1}{a_{N}},h_2^{(k)}(0^{+}) \equiv  0,k={\red 0}\cdots {\red N-2}}\\
+				对差分方程$\begin{cases}\sum_{k=0}^{N}a_{k}h_2[n-k] = \delta[n] \\ \text{{\red 起始}条件}h_2[-k] = 0 \\ k={\red 1},2,\cdots {\red N}\end{cases}$（下式即为{\red 初始}条件）\\
+				解为：\inlineequation[差分初始]{h_2[0]=\frac{1}{a_{0}},h[-k]\equiv 0,k={\red 0},\cdots {\red N-1}}
+				\begin{remark}
+					注意到上述还是有由起始条件转化为初始条件，但是很简单，初始条件由公式\eqref{微分初始}和\eqref{差分初始}给出
+				\end{remark}
+				\begin{example}
+					求$y''(t)+4y'(t)+3y(t) = x'(t)+2x(t)$的单位冲激响应\\
+					\textbf{Solution:\\}
+					$h_1(t) = \delta'(t)+2\delta(t)$
+					\[\begin{cases}
+						h_2''(t)+4h_2'(t)+3h_2(t) = 0 \\
+						\text{\red 初始：}h_2(0^{+}) = 0,h_2'(0^{+}) = 1
+					\end{cases} \xrightarrow{\text{ODE特征根法}} h_2(t) = \begin{cases}
+						A_1\e^{-t}+A_2\e^{-3t}, t>0 \\
+						0, t<0
+					\end{cases}\]
+					再代入初始条件(见\eqref{微分初始})求得$A_1=\frac{1}{2},A_2=-\frac{1}{2}$，则$h_2(t) = \frac{\e^{-t}-\e^{-3t}}{2}$
+					于是\[\begin{aligned}
+						h(t) &= h_1(t)*h_2(t) = [\delta'(t)+2\delta(t)]*\left\{\frac{\e^{-t}-\e^{-3t}}{2}u(t)\right\} = \frac{\e^{-t}+\e^{-3t}}{2}u(t)\\
+						&= [\delta'(t)+2\delta(t)]*h_2(t) = \delta'(t)*h_2(t)+2\delta(t)*h_2(t)\\
+						&= (\delta(t)*h_2(t))' + 2h_2(t)\\
+						&= h_2'(t) + 2h_2(t)
+					\end{aligned}\]
+					$y_{\zs} = x(t)*h(t),\quad y(t) = y_{\zi}(t)+y_{\zs}(t) = \sum_{i=0}^{N}A_{\zi,i}\e^{\lambda_i t}s+x(t)*h_1(t)*h_2(t)$
+				\end{example}
+	\item 还有一种微分和差分方程量变函数项匹配的方法（待定系数法），课本$\mathbf{P}_{125}$，写起来巨麻烦，计算量极大，不写了。
+\end{enumerate}
+\subsubsection{零状态响应}
+现在正式进入零状态响应的求法
+\begin{enumerate}[label=(\arabic*)]
+	\item $y_{\zs}(t) = x(t)*h(t) = x(t)*h_1(t)*h_2(t)$，好了，这就是零状态
+	\item 全响应为$y(t) = y_{\zi}(t)+y_{\zs}(t) = \sum_{i=0}^{N}A_{\zi,i}\e^{\lambda_i t}s+x(t)*h_1(t)*h_2(t)$
+\end{enumerate}
+
+\subsection{微分和差分方程表征的因果LTI系统的直接实现结构}
+本节名字又臭又长，说人话就是画框图。框图画法在笔记里打真的会去世，所以作罢，老老实实问同学罢，听人讲+自己做几道例题，半小时内就能搞定。
+
+\section{信号和系统的变换域表示法}
+\subsection{LTI系统对复指数信号的响应}
+若输入为$x(t) = \e^{st}$，易证$y(t) = h(t)*x(t) = \e^{st}\int_{-\infty}^{+\infty}h(\tau)\e^{-s\tau}\dif\tau$\\
+系统函数$H(s)$为：$H(s) = \int_{-\infty}^{+\infty}h(\tau)\e^{-s\tau}\dif\tau,s\in\mathbb{C},y(t) = H(s)\e^{st}$\\
+对CT(continuous time)周期信号$\tilde{x}(t)$的Fourier级数(CFS)：$\tilde{x}(t),\omega_0 .\frac{2\uppi}{T},f_0 = \frac{1}{T}$，有
+\[\tilde{x}(t) = \sum_{k=-\infty}^{+\infty}a_{k}\e^{jk\omega_0t},a_{k} = \frac{1}{T}\int_{T}\tilde{x}(t)\e^{-jk\omega_0t}\]
+对$\tilde{x}(t)$为实信号的性质：
+\begin{enumerate}[label=(\arabic*)]
+	\item 若$\tilde{x}(t)$为实信号，有$\tilde{x}(t)=\tilde{x}^{*}(t),a_{k}=a_{-k}^{*}$
+	\item \[\begin{aligned}
+					\tilde{x}(t) &= \sum_{k=1}^{-\infty}a_k\e^{-jk\omega_0t}+a_0+\sum_{k=1}^{-\infty}s_k\e^{jk\omega_0t} = a_0+\sum_{k=1}^{-\infty}(a_{k}\e^{-jk\omega_0t}+a_{-k}\e^{jk\omega_0t}) \\
+					&= a_0+\sum_{k=1}^{+\infty}2\Re{a_{k}\e^{jk\omega_0t}}\\
+					\tilde{x}(t) &= a_0+\sum_{k=1}^{+\infty}2|a_{k}|\cos (k\omega_0t+\theta_k)
+				\end{aligned}\]
+\end{enumerate}
+傅里叶级数的敛散性：
+\begin{enumerate}[label=(\arabic*)]
+	\item 若$\int_{T}|x(t)|^2\dif t<\infty\Rightarrow a_{k}$有限，即平方可积收敛
+				\[e(t) = \tilde{x}(t) = \sum_{k=-\infty}^{+\infty}a_{k}\e^{jk\omega_0t}\]
+	\item 绝对可积：$\int_{T}|x(t)|\dif t\Rightarrow a_{k}$有限
+\end{enumerate}
+常用信号的Fourier级数：
+\begin{enumerate}[label=(\arabic*)]
+	\item $\tilde{x}(t) = \cos 100\uppi t = \frac{1}{2}\e^{j 100\uppi t}+\frac{1}{2}\e^{-j 100\uppi t}$
+	\item $\tilde{x}(t) = \sin 100\uppi t = \frac{1}{2j}\e^{j 100\uppi t}+\frac{1}{2j}\e^{-j 100\uppi t}$
+	\item $\delta_{T}(t) = \sum_{n=-\infty}^{+\infty}\delta(t-nT)\Rightarrow a_{k} = \frac{1}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}}\delta(t)\e^{-jk\omega_0 t}\dif t = \frac{1}{T}$\\
+				$\delta_T(t) = \frac{1}{T}\sum_{k=1}^{+\infty}\frac{2}{T}\cos(k\omega_0t) = \frac{1}{T}\sum_{k=-\infty}^{+\infty}\e^{jk\omega_0 t}$
+	\item 周期脉冲串：
+				\begin{figure}[H]
+						\centering
+						\begin{tikzpicture}[>=Stealth]
+							\draw [->](-2,0)--(5,0)node[below]{$t$};
+							\draw [->](0,-1)--(0,2)node[right]{$\tilde{x}(t)$};
+							\draw (-1,0)node[below]{$-T_1$}--(-1,1)--(0,1)node[above left]{1}--(1,1)--(1,0)node[below]{$T_1$};
+							\draw (-1.8,0)node[below]{$-\frac{T_0}{2}$} (1.8,0)node[below]{$\frac{T_0}{2}$} (3.6,0)node[below]{$T_0$};
+							\draw (2.6,0)--(2.6,1)--(4.6,1)--(4.6,0);
+							\filldraw (-1.6,0)circle(1pt) (-1,0)circle(1pt) (0,0)circle(1pt) (1,0)circle(1pt) (1.6,0)circle(1pt) (2.6,0)circle(1pt)	(3.6,0)circle(1pt) (4.6,0)circle(1pt);
+				\end{tikzpicture}
+				\end{figure}
+				\[\begin{aligned}
+					a_{k} &= \frac{1}{T_0}\int_{-T_1}^{T_1}\e^{-jk\omega_0 t}\dif t\\
+					&= \frac{1}{T_0}\frac{1}{-jk\omega_0 t}\e^{-jk\omega_0 t}\bigg|_{-T_1}^{T_1} = \frac{1}{T_0}\frac{1}{-jk\omega_0 T_1}\e^{-jk\omega_0 T_1}-\frac{1}{T_0}\frac{1}{-jk\omega_0 T_1}\e^{jk\omega_0 T_1}\\
+					&= \frac{2}{T_0}\frac{\sin k\omega T_1}{k\omega T_1} = \frac{2T_1}{T_0}\Sa{k\omega_0 T_1}\qquad (\Sa{x} = \frac{\sin x}{x})
+				\end{aligned}\]
+\end{enumerate}
+
+DT(Discrete Time)周期信号$\tilde{x}[n]$的Fourier级数(DFS)：\\
+$\tilde{x}[n],N,\omega_0=\frac{2\uppi}{N},\{\e^{jk\omega_0 n}\}$\\
+$\tilde{x}[n] = \sum_{k=0}^{N-1}a_{k}\e^{jk\omega_0 n},\qquad a_{k}=a_{k+N} = \frac{1}{N}\sum_{n=\mangle{N}}\tilde{x}[n]\e^{-jk\omega_0 t},\quad a_{k}=|a_{k}|\e^{j\theta_k}$\\
+常用Fourier级数：\begin{enumerate}[label=(\arabic*)]
+	\item $\tilde{x}[n] = \cos \frac{3\uppi}{5}n =\cos \frac{3}{10}2\uppi n = \frac{1}{2}\e^{j3\frac{2\uppi}{10}n} + \frac{1}{2}\e^{-j3 \frac{2\uppi}{10}n}$
+	\item $\tilde{x}[n] = \sum_{k=-\infty}^{+\infty}\delta(n-kN) = \frac{1}{N}\sum_{k=0}^{N-1}\e^{jk\omega_0 n}\quad a_{k}=\frac{1}{N}$
+\end{enumerate}
+
+\subsection{傅里叶变换与傅里叶反变换}
+对连续时间的信号$x(t)$的傅里叶变换：
+\begin{enumerate}[label=(\arabic*)]
+	\item 先说傅里叶级数和傅里叶变换的关系：傅里叶级数时对周期信号$\tilde{x}(t)$，对于非周期信号$x(t)$则写不出Fourier级数，所以使用傅里叶变换。详见\href{https://www.zhihu.com/question/21665935}{知乎}
+	\item 傅里叶变换：对$x(t)$，其傅里叶变换(CTFT)为
+				\begin{equation}
+					X(\omega) = X(j\omega) = \int_{-\infty}^{+\infty}x(t)\e^{-j\omega t}\dif t
+				\end{equation}
+				或者\begin{equation}
+					X(jf) = \int_{-\infty}^{+\infty}x(t)\e^{-j_2\uppi ft}\dif t\qquad f=\frac{\omega}{2\uppi}
+				\end{equation}
+				你可能要问$X(\omega)$和$X(j\omega)$怎么就相等呢？实际上就是两种表示罢了，参见\href{https://math.stackexchange.com/questions/966414/difference-between-x-omega-and-xj-omega-notation-of-fourier-transform}{MSE}
+	\item 傅里叶反变换（还有个像上面一样用频率$f$的等价式子，略去不写）：
+				\begin{equation}
+					f(t) = \frac{1}{2\uppi}\int_{-\infty}^{+\infty} X(j\omega)\e^{j\omega t} \dif\omega
+				\end{equation}
+\end{enumerate}
+对离散时间的信号$x[n]$的傅里叶变换：
+\begin{enumerate}[label=(\arabic*)]
+	\item 先说说离散傅里叶变换(DFT)和离散时间傅里叶变换(DTFT)的区别：DTFT是对原信号在时域离散，DFT是对DTFT在频域上离散，相当于对原信号在时域、频域上都离散。详见\href{https://www.zhihu.com/question/23137926}{知乎}
+	\item 接下来讲的都是DTFT：
 \end{enumerate}
 
 \appendix
@@ -157,12 +348,33 @@ Last Modified:\today}
 	\centering
 	\begin{tabular}{ccc}
 		\toprule
-		中文 & 符号 & 说明 \\
+		中文 & 符号/缩写 & 说明 \\
 		\midrule
+		输入信号 & $x(t)$ & $e(t)$同义 \\
+		输出信号 & $y(t)$ & $r(t)$同义 \\
+		关系式 & $x(t)\longrightarrow y(t)$ & $r(t)=T\{e(t)\}$ \\
 		单位冲激函数 & $\delta(t)$ &  \\
 		单位阶跃函数 & $u(t)$ & 也有记号$\theta(t),\varepsilon(t)$ \\
+		信号的偶分量 & $x_{e}(t)=\Ev{x(t)}$ & $\Ev{x(t)}=\frac{x(t)+x(-t)}{2}$,Even \\
+		信号的奇分量 & $x_{o}(t)=\Od{x(t)}$ & $\Od{x(t)}=\frac{x(t)-x(-t)}{2}$,Odd \\
+		$x(t)/x[n]$信号的能量 & $E_x$ & $E_x=\int_{-\infty}^{+\infty}|x(t)|^2\dif t$或$E_x = \sum_{n=-\infty}^{+\infty}|x[n]|^2$ \\
+		$x(t)/x[n]$信号的功率 & $P_x$ & $P_x = \lim_{T \to \infty}\frac{1}{2T}\int_{-\infty}^{+\infty}|x(t)|^2\dif t$或$\lim_{N \to \infty}\frac{1}{2N+1}\sum|x[n]|^2$ \\
+		线性时不变（非时变） & LTI & Linear Time Invariant \\
+		齐次解/自由（固有）响应 & $y_{H}(t)$ & Homogeneous \\
+		特解/强迫响应 & $y_{P}(t)$ & Particular \\
+		零输入响应 & $y_{\zi}(t)$ & Zero Input \\
+		零状态响应 & $y_{\zs}(t)$ & Zero State \\
+		离散时间 & CT & Continuous Time \\
+		连续时间 & DT & Discrete Time \\
+		离散时间傅里叶级数 & DFS & Discrete Fourier Series \\
+		连续时间傅里叶级数 & CFS & Continuous Fourier Series \\
+		离散傅里叶变换 & DFT & Discrete Fourier Transform \\
+		离散时间傅里叶变换 & DTFT & Discrete Time Fourier Transform \\
+		连续时间傅里叶变换 & CTFT & Continuous Time Fourier Transform \\
 		\bottomrule
 	\end{tabular}
 \end{table}
+
+\section{草稿区}
 
 \end{document}
